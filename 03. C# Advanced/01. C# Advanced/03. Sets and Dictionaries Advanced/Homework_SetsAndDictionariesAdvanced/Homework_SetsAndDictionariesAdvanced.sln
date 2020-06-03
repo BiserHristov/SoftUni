@@ -5,17 +5,19 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "01.UniqueUsernames", "01.UniqueUsernames\01.UniqueUsernames.csproj", "{B390435A-311A-405A-8ABD-181F6A59BF3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02. SetsOfElements", "02. SetsOfElements\02. SetsOfElements.csproj", "{58DC9929-C9C5-4BCF-8F65-06BAE84EE878}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "02. SetsOfElements", "02. SetsOfElements\02. SetsOfElements.csproj", "{58DC9929-C9C5-4BCF-8F65-06BAE84EE878}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03.PeriodicTable", "03.PeriodicTable\03.PeriodicTable.csproj", "{B77A5062-5E60-4AC8-A5AA-29D05B9CD9E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "03.PeriodicTable", "03.PeriodicTable\03.PeriodicTable.csproj", "{B77A5062-5E60-4AC8-A5AA-29D05B9CD9E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04.EvenTimes", "04.EvenTimes\04.EvenTimes.csproj", "{C68EE78F-EB94-4C75-9BED-58B6EA96D4BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "04.EvenTimes", "04.EvenTimes\04.EvenTimes.csproj", "{C68EE78F-EB94-4C75-9BED-58B6EA96D4BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05.CountSymbols", "05.CountSymbols\05.CountSymbols.csproj", "{14E0E5C9-68D9-4592-9A18-DE5282CAB641}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "05.CountSymbols", "05.CountSymbols\05.CountSymbols.csproj", "{14E0E5C9-68D9-4592-9A18-DE5282CAB641}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06.Wardrobe", "06.Wardrobe\06.Wardrobe.csproj", "{456BB77E-D946-49A7-9022-863BE963B2A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "06.Wardrobe", "06.Wardrobe\06.Wardrobe.csproj", "{456BB77E-D946-49A7-9022-863BE963B2A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "07.TheVLogger", "07.TheVLogger\07.TheVLogger.csproj", "{567C5856-B952-4D98-8615-79CAE5BE3D1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "07.TheVLogger", "07.TheVLogger\07.TheVLogger.csproj", "{567C5856-B952-4D98-8615-79CAE5BE3D1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "08.Ranking", "08.Ranking\08.Ranking.csproj", "{ABF6F342-EB0E-474F-BE0B-3B169009D8BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{567C5856-B952-4D98-8615-79CAE5BE3D1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{567C5856-B952-4D98-8615-79CAE5BE3D1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{567C5856-B952-4D98-8615-79CAE5BE3D1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABF6F342-EB0E-474F-BE0B-3B169009D8BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABF6F342-EB0E-474F-BE0B-3B169009D8BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABF6F342-EB0E-474F-BE0B-3B169009D8BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABF6F342-EB0E-474F-BE0B-3B169009D8BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
