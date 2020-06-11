@@ -55,7 +55,7 @@ namespace _10.PredicateParty_
                     for (int i = 0; i < doubles.Count; i++)
                     {
                         int index = x.IndexOf(doubles[i]);
-                        x.Insert(index, doubles[i]);
+                        x.Insert(index+1, doubles[i]);
                     }
 
                     return x;
