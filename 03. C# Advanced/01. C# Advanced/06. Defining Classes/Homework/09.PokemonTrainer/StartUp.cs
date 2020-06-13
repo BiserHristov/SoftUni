@@ -55,6 +55,7 @@ namespace _09.PokemonTrainer
                             if (currentPokemon.Health <= 0)
                             {
                                 trainer.Pokemons.Remove(currentPokemon);
+                                i--;
                             }
                         }
 
