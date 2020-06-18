@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace _03.SwapMethodString
 {
-    public class Program
+    public class SwapMethodString
     {
         static void Main(string[] args)
         {
