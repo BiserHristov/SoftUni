@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P01.ClassDataBox", "P01.ClassDataBox\P01.ClassDataBox.csproj", "{D60B65DE-E846-4E7C-94BF-24701E32066B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P03.ShoppingSpree", "03.ShoppingSpree\P03.ShoppingSpree.csproj", "{DBDD3DD2-ED3E-4E1D-9660-356C82F61BE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P03.ShoppingSpree", "03.ShoppingSpree\P03.ShoppingSpree.csproj", "{DBDD3DD2-ED3E-4E1D-9660-356C82F61BE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P02.AnimalFarm", "P02.AnimalFarm\P02.AnimalFarm.csproj", "{FEF55326-716D-46C4-92CD-46093585A3F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P02.AnimalFarm", "P02.AnimalFarm\P02.AnimalFarm.csproj", "{FEF55326-716D-46C4-92CD-46093585A3F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P04.PizzaCalories", "P04.PizzaCalories\P04.PizzaCalories.csproj", "{CA5CE9B1-CAB8-4A5B-BD8B-8D4CEC56D76F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{FEF55326-716D-46C4-92CD-46093585A3F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEF55326-716D-46C4-92CD-46093585A3F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEF55326-716D-46C4-92CD-46093585A3F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA5CE9B1-CAB8-4A5B-BD8B-8D4CEC56D76F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA5CE9B1-CAB8-4A5B-BD8B-8D4CEC56D76F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA5CE9B1-CAB8-4A5B-BD8B-8D4CEC56D76F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA5CE9B1-CAB8-4A5B-BD8B-8D4CEC56D76F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
