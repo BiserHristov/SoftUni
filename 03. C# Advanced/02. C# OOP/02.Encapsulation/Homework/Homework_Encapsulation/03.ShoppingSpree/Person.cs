@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
 namespace _03.ShoppingSpree
@@ -13,7 +14,7 @@ namespace _03.ShoppingSpree
         {
             this.Name = name;
             this.Money = money;
-            this.Products = products;
+            this.products = new List<Product>();
         }
         public decimal Money
         {
@@ -22,7 +23,7 @@ namespace _03.ShoppingSpree
             {
                 if (!ValidateDecimal(value))
                 {
-                    throw new ArgumentException("Money cannot be negative");
+                    throw new ArgumentException($"{nameof(this.Money)} cannot be negative");
                 }
 
                 this.money = value;
@@ -35,24 +36,14 @@ namespace _03.ShoppingSpree
             {
                 if (!ValidateString(value))
                 {
-                    throw new ArgumentException("Name cannot be empty");
+                    throw new ArgumentException($"{nameof(this.Name)} cannot be empty");
                 }
                 this.name = value;
             }
         }
 
-        public List<Product> Products
-        {
-            get
-            {
-                return this.products;
-            }
-            set
-            {
-                this.products = new List<Product>();
-            }
-
-        }
+        public IReadOnlyCollection<Product> Products => this.products.AsReadOnly();
+ 
 
         private bool ValidateString(string param)
         {
@@ -74,7 +65,20 @@ namespace _03.ShoppingSpree
 
             return true;
         }
+        public string BuyProduct(Product product)
+        {
+            if (this.Money >= product.Cost)
+            {
+                this.Money -= product.Cost;
+                this.products.Add(product);
+                return $"{this.Name} bought {product.Name}";
 
+            }
+            else
+            {
+                return $"{this.Name} can't afford {product.Name}";
+            }
+        }
         public override string ToString()
         {
             return $"{this.Name} - " + (this.Products.Count > 0 ? string.Join(", ", this.Products) : "Nothing bought");

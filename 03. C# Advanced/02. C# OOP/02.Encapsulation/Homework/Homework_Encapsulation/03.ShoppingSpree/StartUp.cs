@@ -58,17 +58,7 @@ namespace _03.ShoppingSpree
                 if (person != null)
                 {
                     var product = products.FirstOrDefault(x => x.Name == productName);
-                    if (person.Money >= product.Cost)
-                    {
-                        person.Money -= product.Cost;
-                        person.Products.Add(product);
-                        Console.WriteLine($"{personName} bought {productName}");
-
-                    }
-                    else
-                    {
-                        Console.WriteLine($"{personName} can't afford {productName}");
-                    }
+                    Console.WriteLine(person.BuyProduct(product));
 
                 }
             }

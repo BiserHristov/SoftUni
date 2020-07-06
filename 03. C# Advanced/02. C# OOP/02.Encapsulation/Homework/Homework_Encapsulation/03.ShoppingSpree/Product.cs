@@ -24,7 +24,7 @@ namespace _03.ShoppingSpree
             {
                 if (!ValidateString(value))
                 {
-                    throw new ArgumentException("Name cannot be empty");
+                    throw new ArgumentException($"{nameof(this.Name)} cannot be empty");
                 }
 
                 this.name = value;
