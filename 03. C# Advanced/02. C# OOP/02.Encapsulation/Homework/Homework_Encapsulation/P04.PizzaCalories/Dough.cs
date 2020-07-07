@@ -47,13 +47,13 @@ namespace P04.PizzaCalories
             get => this.flourType;
             private set
             {
-                if (!validFlourType.ContainsKey(value))
+                if (!validFlourType.ContainsKey(value.ToLower()))
                 {
                     throw new ArgumentException("Invalid type of dough.");
 
                 }
 
-                this.flourType = value;
+                this.flourType = value.ToLower();
 
             }
 
@@ -63,12 +63,12 @@ namespace P04.PizzaCalories
             get => this.bakingTechnique;
             private set
             {
-                if (!validBakingTechnique.ContainsKey(value))
+                if (!validBakingTechnique.ContainsKey(value.ToLower()))
                 {
                     throw new ArgumentException("Invalid type of dough.");
 
                 }
-                this.bakingTechnique = value;
+                this.bakingTechnique = value.ToLower();
             }
 
 
@@ -76,16 +76,16 @@ namespace P04.PizzaCalories
 
         private void LoadFlourType()
         {
-            this.validFlourType.Add("White", 1.5);
-            this.validFlourType.Add("Wholegrain", 1.0);
+            this.validFlourType.Add("white", 1.5);
+            this.validFlourType.Add("wholegrain", 1.0);
 
         }
 
         private void LoadBakingtechnique()
         {
-            this.validBakingTechnique.Add("Crispy", 0.9);
-            this.validBakingTechnique.Add("Chewy", 1.1);
-            this.validBakingTechnique.Add("Homemade", 1.0);
+            this.validBakingTechnique.Add("crispy", 0.9);
+            this.validBakingTechnique.Add("chewy", 1.1);
+            this.validBakingTechnique.Add("homemade", 1.0);
 
         }
 
