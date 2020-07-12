@@ -12,7 +12,7 @@ namespace P07.MilitaryElite.Models
         public Mission(string name, string state)
         {
             this.Name = name;
-            ParseState(state);
+            this.State = ParseState(state);
         }
         public string Name { get; private set; }
 
@@ -23,18 +23,18 @@ namespace P07.MilitaryElite.Models
             this.State = States.Finished;
         }
 
-        private void ParseState(string stateString)
+        private States ParseState(string stateString)
         {
             States state;
 
-            bool parsed = Enum.TryParse<States>(stateString, out state);
+            bool parsed = Enum.TryParse<States>(stateString, false, out state);
 
             if (!parsed)
             {
-                throw new ArgumentException(string.Format(CommonExceptions.NotValidMissionMessage, stateString));
+                throw new InvalidMissionStateException();
             }
 
-            this.State = state;
+            return state;
         }
 
         public override string ToString()

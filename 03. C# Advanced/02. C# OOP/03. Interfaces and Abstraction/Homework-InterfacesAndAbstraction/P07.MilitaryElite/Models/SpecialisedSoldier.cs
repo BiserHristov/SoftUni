@@ -7,28 +7,28 @@ using System.Text;
 
 namespace P07.MilitaryElite.Models
 {
-    public class SpecialisedSoldier : Private, ISpecialisedSoldier
+    public abstract class SpecialisedSoldier : Private, ISpecialisedSoldier
     {
         public SpecialisedSoldier(int id, string firstName, string lastname, decimal salary, string corps)
             : base(id, firstName, lastname, salary)
         {
-            ParseCorps(corps);
+            this.Corps = ParseCorps(corps);
         }
 
-        public Corps Corps { get; set; }
+        public Corps Corps { get; private set; }
 
-        private void ParseCorps(string corpsString)
+        private Corps ParseCorps(string corpsString)
         {
             Corps corps;
 
-            bool parsed = Enum.TryParse<Corps>(corpsString, out corps);
+            bool parsed = Enum.TryParse<Corps>(corpsString, false, out corps);
 
             if (!parsed)
             {
-                throw new ArgumentException(string.Format(CommonExceptions.NotValidCorpsMessage, corpsString));
+                throw new InvalidCorpsException();
             }
 
-            this.Corps = corps;
+            return corps;
         }
 
         public override string ToString()

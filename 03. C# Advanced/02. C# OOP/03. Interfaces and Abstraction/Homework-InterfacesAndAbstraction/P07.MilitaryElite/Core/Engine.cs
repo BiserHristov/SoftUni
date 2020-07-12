@@ -1,130 +1,151 @@
-﻿using P07.MilitaryElite.Interfaces;
+﻿using P07.MilitaryElite.Core.Contracts;
+using P07.MilitaryElite.Exceptions;
+using P07.MilitaryElite.Interfaces;
+using P07.MilitaryElite.IO.Contracts;
 using P07.MilitaryElite.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace P07.MilitaryElite.Core
 {
-    public class Engine
+    public class Engine : IEngine
     {
-        private List<ISoldier> soldiers;
+        private ICollection<ISoldier> soldiers;
+        private IReader reader;
+        private IWriter writer;
 
-        public Engine()
+        private Engine()
         {
             this.soldiers = new List<ISoldier>();
+
+        }
+        public Engine(IReader reader, IWriter writer)
+            : this()
+        {
+
+            this.reader = reader;
+            this.writer = writer;
         }
 
         public void Run()
         {
-            string[] input = Console.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            
+            string line;
 
-            while (input[0] != "End")
+            while ((line = this.reader.ReadLine()) != "End")
             {
+                string[] input = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 string command = input[0];
+                int id = int.Parse(input[1]);
+                string fName = input[2];
+                string lName = input[3];
+
+                ISoldier soldier = null;
 
                 if (command == "Private")
                 {
-                    int id = int.Parse(input[1]);
-                    string fName = input[2];
-                    string lName = input[3];
                     decimal salary = decimal.Parse(input[4]);
 
-                    Private @private = new Private(id, fName, lName, salary);
-                    this.soldiers.Add(@private);
+                    soldier = new Private(id, fName, lName, salary);
+                  
                 }
-                //Check •	LEutenantGeneral
                 else if (command == "LieutenantGeneral")
                 {
-                    int id = int.Parse(input[1]);
-                    string fName = input[2];
-                    string lName = input[3];
+
                     decimal salary = decimal.Parse(input[4]);
-                    LieutenantGeneral lieutenantGeneral = new LieutenantGeneral(id, fName, lName, salary);
+                    soldier = new LieutenantGeneral(id, fName, lName, salary);
 
                     for (int i = 5; i < input.Length; i++)
                     {
                         var @private = this.soldiers.Where(x => x.Id == int.Parse(input[i]) && x.GetType().Name == "Private").FirstOrDefault();
-                        if (@private!=null)
+                        if (@private != null)
                         {
-                            lieutenantGeneral.AddPrivate(@private as IPrivate);
+                            (soldier as ILieutenantGeneral).AddPrivate(@private as IPrivate);
 
                         }
-                     
+
                     }
-                    this.soldiers.Add(lieutenantGeneral);
+                    
                 }
                 else if (command == "Engineer")
                 {
-                    int id = int.Parse(input[1]);
-                    string fName = input[2];
-                    string lName = input[3];
+
                     decimal salary = decimal.Parse(input[4]);
                     string corp = input[5];
 
-                    Engineer engineer = new Engineer(id, fName, lName, salary, corp);
-
-                    for (int i = 6; i < input.Length; i += 2)
+                    try
                     {
-                        string repairPart = input[i];
-                        int repairHours = int.Parse(input[i + 1]);
-                        IRepair repair = new Repair(repairPart, repairHours);
-                        engineer.AddReapir(repair);
+                        soldier = new Engineer(id, fName, lName, salary, corp);
+                        for (int i = 6; i < input.Length; i += 2)
+                        {
+                            string repairPart = input[i];
+                            int repairHours = int.Parse(input[i + 1]);
+                            IRepair repair = new Repair(repairPart, repairHours);
+                            (soldier as IEngineer).AddReapir(repair);
+                        }
+
+                    }
+                    catch (InvalidCorpsException)
+                    {
+                        continue;
                     }
 
-                    this.soldiers.Add(engineer);
+
                 }
 
                 else if (command == "Commando")
                 {
-                    int id = int.Parse(input[1]);
-                    string fName = input[2];
-                    string lName = input[3];
+
                     decimal salary = decimal.Parse(input[4]);
                     string corp = input[5];
+
                     try
                     {
-                        Commando commando = new Commando(id, fName, lName, salary, corp);
+                        soldier = new Commando(id, fName, lName, salary, corp);
 
                         for (int i = 6; i < input.Length; i += 2)
                         {
                             string missionName = input[i];
                             string missionState = input[i + 1];
-                            IMission mission = new Mission(missionName, missionState);
-                            commando.AddMission(mission);
+                            try
+                            {
+                                IMission mission = new Mission(missionName, missionState);
+                                (soldier as ICommando).AddMission(mission);
+                            }
+                            catch (InvalidMissionStateException)
+                            {
+
+                                continue;
+                            }
+
                         }
-
-                        this.soldiers.Add(commando);
-
                     }
-                    catch (Exception)
+                    catch (InvalidCorpsException)
                     {
-
-                        throw;
+                        continue;
                     }
 
+
                 }
-                 else if (command == "Spy")
+                else if (command == "Spy")
                 {
-                    int id = int.Parse(input[1]);
-                    string fName = input[2];
-                    string lName = input[3];
+
                     int codeNumber = int.Parse(input[4]);
+                    soldier = new Spy(id, fName, lName, codeNumber);
 
-                    Spy spy = new Spy(id, fName, lName, codeNumber);
-
-                    this.soldiers.Add(spy);
                 }
 
-                input = Console.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                if (soldier!=null)
+                {
+                    this.soldiers.Add(soldier);
+                }
 
             }
 
             foreach (var soldier in this.soldiers)
             {
-                Console.WriteLine(soldier);
+                this.writer.WriteLine(soldier.ToString());
             }
         }
     }

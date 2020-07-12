@@ -7,7 +7,7 @@ namespace P07.MilitaryElite.Models
 {
     public abstract class Soldier : ISoldier
     {
-        public Soldier(int id, string firstName, string lastname)
+        protected Soldier(int id, string firstName, string lastname)
         {
             this.Id = id;
             this.Firstname = firstName;

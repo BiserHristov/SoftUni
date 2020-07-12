@@ -7,14 +7,14 @@ namespace P07.MilitaryElite.Models
 {
     public class Engineer : SpecialisedSoldier, IEngineer
     {
-        private readonly List<IRepair> repairs;
-        public Engineer(int id, string firstName, string lastname, decimal salary, string corps) 
+        private readonly ICollection<IRepair> repairs;
+        public Engineer(int id, string firstName, string lastname, decimal salary, string corps)
             : base(id, firstName, lastname, salary, corps)
         {
             this.repairs = new List<IRepair>();
         }
 
-        public IReadOnlyCollection<IRepair> Repairs => this.repairs.AsReadOnly();
+        public IReadOnlyCollection<IRepair> Repairs => (IReadOnlyCollection<IRepair>)this.repairs;
 
         public void AddReapir(IRepair repair)
         {
@@ -29,7 +29,7 @@ namespace P07.MilitaryElite.Models
 
             foreach (var repair in this.repairs)
             {
-                sb.AppendLine(repair.ToString());
+                sb.AppendLine("  " + repair.ToString());
             }
 
             return sb.ToString().Trim();

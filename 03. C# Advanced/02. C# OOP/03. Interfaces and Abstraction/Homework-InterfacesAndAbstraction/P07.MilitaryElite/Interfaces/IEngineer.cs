@@ -4,7 +4,7 @@ using System.Text;
 
 namespace P07.MilitaryElite.Interfaces
 {
-    interface IEngineer
+    interface IEngineer: ISpecialisedSoldier
     {
         IReadOnlyCollection<IRepair> Repairs { get; }
         void AddReapir(IRepair repair);

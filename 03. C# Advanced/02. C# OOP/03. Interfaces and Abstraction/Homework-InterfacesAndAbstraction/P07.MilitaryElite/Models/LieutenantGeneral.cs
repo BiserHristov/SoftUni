@@ -8,15 +8,14 @@ namespace P07.MilitaryElite.Models
 {
     public class LieutenantGeneral : Private, ILieutenantGeneral
     {
-        private readonly List<IPrivate> privates;
+        private readonly ICollection<IPrivate> privates;
         public LieutenantGeneral(int id, string firstName, string lastname, decimal salary)
             : base(id, firstName, lastname, salary)
         {
             this.privates = new List<IPrivate>();
         }
 
-        public IReadOnlyCollection<IPrivate> Privates => this.privates.AsReadOnly();
-
+        public IReadOnlyCollection<IPrivate> Privates =>(IReadOnlyCollection<IPrivate>) this.privates;
         public void AddPrivate(IPrivate @private)
         {
             this.privates.Add(@private);
@@ -31,7 +30,7 @@ namespace P07.MilitaryElite.Models
 
             foreach (var @private in this.privates)
             {
-                sb.AppendLine(@private.ToString());
+                sb.AppendLine("  " + @private.ToString());
             }
 
             return sb.ToString().Trim();

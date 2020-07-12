@@ -6,8 +6,8 @@ using System.Text;
 
 namespace P07.MilitaryElite.Interfaces
 {
-    public interface ISpecialisedSoldier
+    public interface ISpecialisedSoldier : IPrivate
     {
-       public Corps Corps { get; }
+        public Corps Corps { get; }
     }
 }
