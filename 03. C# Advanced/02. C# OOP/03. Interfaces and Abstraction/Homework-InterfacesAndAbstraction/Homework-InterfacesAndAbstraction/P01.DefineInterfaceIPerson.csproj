@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Homework_InterfacesAndAbstraction</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="01.DefineInterfaceIPerson.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\P06.Food Shortage\P06.FoodShortage.csproj" />
+  </ItemGroup>
+
+</Project>
