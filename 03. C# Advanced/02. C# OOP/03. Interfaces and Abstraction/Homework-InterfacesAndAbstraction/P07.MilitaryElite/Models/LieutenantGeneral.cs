@@ -1,7 +1,5 @@
 ﻿using P07.MilitaryElite.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
 namespace P07.MilitaryElite.Models
