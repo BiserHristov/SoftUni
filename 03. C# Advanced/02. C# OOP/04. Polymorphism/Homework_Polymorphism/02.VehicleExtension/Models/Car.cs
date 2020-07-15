@@ -4,8 +4,12 @@
     {
 
         private const double FUEL_INCREASE_COEFICIENT = 0.9;
-        public Car(double quantity, double fuelConsumption)
+        private Car(double quantity, double fuelConsumption)
             : base(quantity, fuelConsumption)
+        {
+        }
+
+        public Car(double fuelQuantity, double fuelConsumption, double tankCapacity) : base(fuelQuantity, fuelConsumption, tankCapacity)
         {
         }
 

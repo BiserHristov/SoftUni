@@ -1,4 +1,4 @@
-﻿namespace __02.VehicleExtension.Models.Core.Contracts
+﻿namespace _02.VehicleExtension.Models.Core.Contracts
 {
     public interface IEngine
     {
