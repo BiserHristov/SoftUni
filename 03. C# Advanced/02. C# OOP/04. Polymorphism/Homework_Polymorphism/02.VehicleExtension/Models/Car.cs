@@ -4,27 +4,12 @@
     {
 
         private const double FUEL_INCREASE_COEFICIENT = 0.9;
-        private Car(double quantity, double fuelConsumption)
-            : base(quantity, fuelConsumption)
+        public Car(double quantity, double fuelConsumption, int tankCapacity)
+            : base(quantity, fuelConsumption+ FUEL_INCREASE_COEFICIENT, tankCapacity)
         {
         }
 
-        public Car(double fuelQuantity, double fuelConsumption, double tankCapacity) : base(fuelQuantity, fuelConsumption, tankCapacity)
-        {
-        }
 
-        public override double FuelConsumption
-        {
-            get
-            {
-                return base.FuelConsumption;
-            }
-            protected set
-            {
-                base.FuelConsumption = value + FUEL_INCREASE_COEFICIENT;
-            }
-        }
 
-        
     }
 }

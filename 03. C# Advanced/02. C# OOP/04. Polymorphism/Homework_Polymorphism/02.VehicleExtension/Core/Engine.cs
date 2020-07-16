@@ -28,40 +28,42 @@ namespace _02.VehicleExtension.Models.Core
 
         public void Run()
         {
-            try
+
+            Car car = (Car)GetVehicle();
+            Truck truck = (Truck)GetVehicle();
+            Bus bus =(Bus) GetVehicle();
+
+            int count = int.Parse(this.reader.ReadLine());
+
+            for (int i = 0; i < count; i++)
             {
-                Vehicle car = GetVehicle();
-                Vehicle truck = GetVehicle();
-                Vehicle bus = GetVehicle();
+                string[] input = this.reader.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                string command = input[0];
+                string vehicleType = input[1];
 
-                int count = int.Parse(this.reader.ReadLine());
-
-                for (int i = 0; i < count; i++)
+                if (command == "Drive")
                 {
-                    string[] input = this.reader.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                    string command = input[0];
-                    string vehicleType = input[1];
+                    double distance = double.Parse(input[2]);
 
-                    if (command == "Drive")
+
+                    if (vehicleType == "Car")
                     {
-                        double distance = double.Parse(input[2]);
-
-
-                        if (vehicleType == "Car")
-                        {
-                            this.writer.WriteLine(car.Drive(distance));
-                        }
-                        else if (vehicleType == "Truck")
-                        {
-                            this.writer.WriteLine(truck.Drive(distance));
-                        }
-                        else if (vehicleType == "Bus")
-                        {
-                            this.writer.WriteLine(bus.Drive(distance));
-                        }
-
+                        this.writer.WriteLine(car.Drive(distance));
                     }
-                    else if (command == "Refuel")
+                    else if (vehicleType == "Truck")
+                    {
+                        this.writer.WriteLine(truck.Drive(distance));
+                    }
+                    else if (vehicleType == "Bus")
+                    {
+                        this.writer.WriteLine(bus.Drive(distance));
+                    }
+
+                }
+              
+                else if (command == "Refuel")
+                {
+                    try
                     {
                         double litres = double.Parse(input[2]);
                         if (vehicleType == "Car")
@@ -76,27 +78,29 @@ namespace _02.VehicleExtension.Models.Core
                         {
                             bus.Refuel(litres);
                         }
-
-
                     }
-                    else if (command == "DriveEmpty")
+                    catch (ArgumentException ae)
                     {
-                        double distance = double.Parse(input[2]);
-                        this.writer.WriteLine((bus as Bus).DriveEmpty(distance));
+                        this.writer.WriteLine(ae.Message);
                     }
+ 
 
 
                 }
+                else if (command == "DriveEmpty")
+                {
+                    double distance = double.Parse(input[2]);
+                    this.writer.WriteLine(bus.DriveEmpty(distance));
+                }
 
 
-                this.writer.WriteLine(car.ToString());
-                this.writer.WriteLine(truck.ToString());
-                this.writer.WriteLine(bus.ToString());
             }
-            catch (ArgumentException ae)
-            {
-                this.writer.WriteLine(ae.Message);
-            }
+
+
+            this.writer.WriteLine(car.ToString());
+            this.writer.WriteLine(truck.ToString());
+            this.writer.WriteLine(bus.ToString());
+
             
 
         }
@@ -107,7 +111,7 @@ namespace _02.VehicleExtension.Models.Core
             string type = input[0];
             double fuelQnty = double.Parse(input[1]);
             double fuelConsumption = double.Parse(input[2]);
-            double tankCapacity = double.Parse(input[3]);
+            int tankCapacity = int.Parse(input[3]);
 
             return this.factory.ProduceVehicle(type, fuelQnty, fuelConsumption, tankCapacity);
         }

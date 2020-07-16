@@ -5,7 +5,7 @@ namespace _02.VehicleExtension.Factories
 {
     public class VehicleFactory
     {
-        public Vehicle ProduceVehicle(string type, double fuelQty, double fuelConsumption, double tankCapacity)
+        public Vehicle ProduceVehicle(string type, double fuelQty, double fuelConsumption, int tankCapacity)
         {
             Vehicle vehicle = null;
 

@@ -1,24 +1,19 @@
 ﻿using _02.VehicleExtension.Interfaces;
 using System;
-using System.Threading;
 
 namespace _02.VehicleExtension.Models
 {
     public abstract class Vehicle : IVehicle
     {
         private double fuelQuantity;
-        protected Vehicle(double fuelQuantity, double fuelConsumption)
+        protected Vehicle(double fuelQuantity, double fuelConsumption, int tankCapacity)
         {
-
+            this.TankCapacity = tankCapacity;
             this.FuelQuantity = fuelQuantity;
             this.FuelConsumption = fuelConsumption;
 
         }
-        protected Vehicle(double fuelQuantity, double fuelConsumption, double tankCapacity)
-            : this(fuelQuantity > tankCapacity ? 0 : fuelQuantity, fuelConsumption)
-        {
-            this.TankCapacity = tankCapacity;
-        }
+        
 
         public double FuelQuantity
         {
@@ -28,17 +23,24 @@ namespace _02.VehicleExtension.Models
             }
             protected set
             {
+                if (value > this.TankCapacity)
+                {
+                    this.fuelQuantity = 0;
+                }
+                else
+                {
 
+                    this.fuelQuantity = value;
+                }
 
-                this.fuelQuantity = value;
 
             }
 
         }
 
-        public virtual double FuelConsumption { get; protected set; }
+        public  double FuelConsumption { get; protected set; }
 
-        public double TankCapacity { get; private set; }
+        public int TankCapacity { get; private set; }
 
         public virtual string Drive(double distance)
         {
@@ -64,8 +66,6 @@ namespace _02.VehicleExtension.Models
             {
                 throw new ArgumentException($"Cannot fit {litres} fuel in the tank");
             }
-
-
 
             this.FuelQuantity += litres;
 
