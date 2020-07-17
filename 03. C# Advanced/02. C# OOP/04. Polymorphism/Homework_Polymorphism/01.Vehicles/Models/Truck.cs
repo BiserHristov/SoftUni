@@ -22,7 +22,8 @@
         }
         public override void Refuel(double litres)
         {
-            base.Refuel(litres * 0.95);
+            base.Refuel(litres);
+            this.FuelQuantity -= litres * 0.05;
         }
 
  

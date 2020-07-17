@@ -11,7 +11,7 @@ namespace _01.Vehicles.Models
             this.FuelConsumption = fuelConsumption;
         }
 
-        public double FuelQuantity { get; private set; }
+        public double FuelQuantity { get; protected set; }
 
         public virtual double FuelConsumption { get; protected set; }
 
