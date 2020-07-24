@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P01.DefineInterfaceIPerson"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P03.Telephony", "P03.Telephony\P03.Telephony.csproj", "{3E48AD7C-089D-4D67-BE3D-6FE65BBCD79D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04.WildFarm", "04.WildFarm\04.WildFarm.csproj", "{2E1188BF-65B3-4D5C-ACA2-10A46EA1F007}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{3E48AD7C-089D-4D67-BE3D-6FE65BBCD79D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E48AD7C-089D-4D67-BE3D-6FE65BBCD79D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E48AD7C-089D-4D67-BE3D-6FE65BBCD79D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E1188BF-65B3-4D5C-ACA2-10A46EA1F007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E1188BF-65B3-4D5C-ACA2-10A46EA1F007}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E1188BF-65B3-4D5C-ACA2-10A46EA1F007}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E1188BF-65B3-4D5C-ACA2-10A46EA1F007}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
