@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using DatabaseProblem; //You should comment this "using" for submitting in Judge
 namespace Tests
 {
     [TestFixture]
@@ -10,12 +11,21 @@ namespace Tests
         {
         }
 
+        //Constructor
         [Test]
         public void ConstructorWorksNormalyWithValidData()
         {
 
             db = new Database(new int[] { 1, 2, 3, 4 });
             Assert.That(db.Count, Is.EqualTo(4));
+        }
+
+        [Test]
+        public void ConstructorWorksNormalyWithEmptyData()
+        {
+
+            db = new Database(new int[] {});
+            Assert.That(db.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -37,7 +47,7 @@ namespace Tests
         }
 
         [Test]
-        public void RemoveMethodThrowsWithemptyData()
+        public void RemoveMethodThrowsWithEmptyData()
         {
             db = new Database(new int[] { });
 
@@ -45,7 +55,6 @@ namespace Tests
         }
 
         //Fetch
-
         [Test]
         public void FetchMetodWorksAsExpectedWithvalidData()
         {

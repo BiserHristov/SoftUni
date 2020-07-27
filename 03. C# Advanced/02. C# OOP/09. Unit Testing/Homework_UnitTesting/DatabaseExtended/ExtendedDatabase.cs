@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace ExtendedDatabase
+namespace ExtendedDatabaseProblem
 {
     public class ExtendedDatabase
     {
@@ -64,7 +64,7 @@ namespace ExtendedDatabase
             }
 
             this.count--;
-            this.persons[this.count] = null;
+            this.persons[this.count] = null;    //TEST??
         }
 
         public Person FindByUsername(string name)
