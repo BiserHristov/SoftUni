@@ -150,7 +150,7 @@ namespace OnlineShop.Models.Products.Computers
 
             foreach (var component in this.Components)
             {
-                sb.AppendLine($"  {component.ToString()}");
+                sb.AppendLine($"  {component}");
             }
 
             if (this.Peripherals.Count==0)
@@ -162,8 +162,6 @@ namespace OnlineShop.Models.Products.Computers
                 sb.AppendLine($" Peripherals ({this.Peripherals.Count}); Average Overall Performance ({this.Peripherals.Average(p => p.OverallPerformance):F2}):");
             }
 
-            // sb.AppendLine(Environment.NewLine);
-
             //ToDo: If empty collection??
 
             foreach (var peripheral in this.Peripherals)
@@ -171,8 +169,7 @@ namespace OnlineShop.Models.Products.Computers
                 sb.AppendLine(peripheral.ToString());
             }
 
-            //TODO: Only trimEnd ?
-            return sb.ToString().TrimEnd();
+            return sb.ToString().Trim();
         }
     }
 }
