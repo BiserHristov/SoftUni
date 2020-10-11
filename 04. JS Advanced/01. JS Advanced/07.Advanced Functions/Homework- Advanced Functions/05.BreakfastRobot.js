@@ -50,8 +50,18 @@ function solution() {
             return result.join(' ')
         },
 
-        prepare: function(product, qty) {
-                //ToDo
+        prepare: function (product, count) {
+            let message = '';
+
+            Object.entries(meals[product]).forEach(([el, neededQuantity]) => {
+                if (warehouse[el] < neededQuantity * count) {
+                    message= `Error: not enough ${el} in stock`
+                    break;
+                }
+            })
+
+            return message;
+
         }
 
     }
@@ -67,5 +77,5 @@ function solution() {
 let manager = solution();
 console.log(manager("restock flavour 50"));  // Success
 
-console.log(manager("report"))
+console.log(manager("prepare lemonade 4"))
 
