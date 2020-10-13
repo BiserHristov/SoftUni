@@ -1,55 +1,66 @@
 (function () {
-    Object.defineProperty(String.prototype, 'ensureStart', {
-        value(word) {
-            let result = this;
-            if (this.startsWith(word)) {
-                console.log(`\'${word}\' already present`);
-            }
-            else {
-
-                result = word + this;
-            }
-
-            return result;
+    String.prototype.ensureStart = function (word) {
+        let curr = this;
+        if (!this.startsWith(word)) {
+            curr = word + curr;
         }
-    });
 
-    Object.defineProperty(String.prototype, 'ensureEnd', {
-        value(word) {
-            let result = this;
-            if (this.endsWith(word)) {
-                console.log(`\'${word}\' already present`);
-            }
-            else {
+        return curr.toString();
 
-                result = this + word;
-            }
+    }
 
-            return result;
+    String.prototype.ensureEnd = function (word) {
+        let curr = this;
+        if (!curr.endsWith(word)) {
+            curr += word;
         }
-    });
 
-    Object.defineProperty(String.prototype, 'isEmpty', {
-        value() {
-            return this.length == 0
+        return curr.toString();
+
+    }
+
+    String.prototype.isEmpty = function () {
+
+        return this.length == 0
+    }
+
+    String.prototype.truncate = function (n) {
+
+        let result = this;
+
+        if (n < 4) {
+            return '.'.repeat(n)
         }
-    });
 
-})();
+        if (this.indexOf(' ') < 0) {
+            return this.substring(0, n - 3) + '...';
+        }
 
+        if (this.length > n) {
+            let resultAsArr = this.split(' ')
 
-let str = 'my string';
-str = str.ensureStart('my');
-str = str.ensureStart('hello ');
-str = str.ensureEnd('string');
-str='';
-console.log(str.isEmpty());
-str = str.truncate(16);
-str = str.truncate(14);
-str = str.truncate(8);
-str = str.truncate(4);
-str = str.truncate(2);
-str = String.format('The {0} {1} fox',
-    'quick', 'brown');
-str = String.format('jumps {0} {1}',
-    'dog');
+            while (resultAsArr.join(' ').length + 3 > n) {
+                resultAsArr.pop();
+            }
+
+            return resultAsArr.join(' ') + '...';
+        }
+
+        return result.toString();
+
+    }
+
+    String.format = function (str, ...params) {
+
+        let result = str;
+        let paramsArr = [...params];
+
+        paramsArr.forEach((value, index) => {
+            result=result.replace(`{${index}}`, value)
+        })
+
+        return result.toString();
+
+    }
+
+})()
