@@ -1,0 +1,10 @@
+За инсталация и дебъгване през терминала:
+
+
+npm init --yes
+npm install --save mocha chai
+
+Run -> Open Consfigurations> ctrl + space-> Node.js: Mocha test
+                                           		Сменя се: tdd- > bdd
+								${workspaceFolder}/test-> ${file}
+Run Tab-> Launch Program става Mocha tests
