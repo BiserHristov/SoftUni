@@ -1,0 +1,16 @@
+{
+  "name": "unit-testing-exercise",
+  "version": "1.0.0",
+  "description": "",
+  "main": "ex1.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "mocha ./*/*.test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1"
+  }
+}

@@ -1,0 +1,111 @@
+Tested through terminal.
+
+Results from the tests are as following:
+
+#problem_02
+  isOddOrEven
+    √ Should return undefined when given parameter is not of type string.
+    √ Should return "even" when a string with even(10) length is given.
+    √ Should return "odd" when a string with odd(11) length is given.
+  3 passing (11ms)
+
+#problem_03
+  lookupChar
+    √ Should return undefined when first parameter is not of type string -> (number).
+    √ Should return undefined when second parameter is not of type number -> (string).
+    √ Should return unfedined when second parameter is a floating point number(3.12)
+    √ Should return "Incorrect index" string message when index(4) is out of range of the first(string) parameter's length(4).
+    √ Should return "Incorrect index" string message when index(-5) is lower than zero.
+    √ Should return correct character assigned at valid index(2) in string(test)
+  6 passing (12ms)
+
+#problem_04
+  mathEnforcer
+    addFive
+      √ Should return undefined when given parameter is not of type number
+      √ Should return correct result of the operation 5+5
+      √ Should return correct result of the operation 3.12+5
+      √ Should return correct result of the operation -3+5
+    substractTen
+      √ Should return undefined when given parameter is not of type number
+      √ Should return correct result of the operation 5-10
+      √ Should return correct result of the operation 3.12-10
+      √ Should return correct result of the operation (-3)-10
+    sum
+      √ Should return undefined when first parameter is not of type number
+      √ Should return undefined when second parameter is not of type number
+      √ Should return correct result of the operation 5+5
+      √ Should return correct result of the operation 3.12+3.12
+  13 passing (21ms)
+
+#problem_05
+  StringBuilder
+    _vrfyParam
+      √ Should throw TypeError exception when parameter is not of type string.
+    constructor
+      √ Should get instantiated correctly with or without string argument.
+    append
+      √ Should append string ", there" at the end of string "test".
+    prepend
+      √ Should prepend string ", there" before string "test".
+    insertAt
+      √ Should insert string "test" at given position(2).
+    toString
+      √ Should join all strings from the _stringArray into one.
+  7 passing (20ms)
+
+#problem_06
+  PaymentPackage
+    constructor
+      √ Should instantiate the object with two parameters properly
+    name getter/setter
+      √ Should throw exception when "name" is not of type string.
+      √ Should throw exception when "name" is a string with zero length (empty string).
+      √ Should get/set "name" properly if all requirements are met.
+    value getter/setter
+      √ Should throw exception when "value" is not of type number.
+      √ Should throw exception when the number "value" is less than zero.
+      √ Should get/set "value" properly if all requirements are met.
+    VAT getter/setter
+      √ Should throw exception when "VAT" is not of type number.
+      √ Should throw exception when the number "VAT" is less than zero.
+      √ Should get/set "VAT" properly if all requirements are met.
+    active getter/setter
+      √ Should throw exception when "active" is not of type boolean.
+      √ Should get/set "active" properly if all requirements are met.
+    toString
+      √ Should return the correct information as a single string
+  13 passing (27ms)
+
+#problem_07**
+  Warehouse
+    constructor
+      √ Should throw exception error if argument is not a number.
+      √ Should initialize properly.
+    addProduct
+      √ Should throw exception error if warehouse is already full.
+      √ Should add product correctly if requirements are met.
+    orderProducts
+      √ Should order all products of given type by quantity descending.
+    occupiedCapacity
+      √ Should return the occupied space in the warehouse correctly.
+    revision
+      √ Should return message "The warehouse is empty" if occupiedCapacity is non-positive
+      √ Should return correct output when warehouse is not empty.
+    scrapeAProduct
+      √ Should throw exception error if there is no such product.
+      √ Should reduce the quantity up to zero of existing product
+  10 passing (59ms)
+
+#problem_08*
+  Console
+    constructor
+      √ Should instantiate the class object properly
+    writeLine
+      √ Should return the string representation of a single string argument.
+      √ Should return the JSON representation if the single argument is an object.
+      √ Should throw TypeError if the first argument of many is not a string.
+      √ Should throw RangeError if the number of arguments is not equal to the number of placeholders.
+      √ Should throw RangeError if the placeholder index does not match any argument index.
+      √ Should replace all placeholders with the appropriate argument if all requirements are met.
+  7 passing (24ms)
