@@ -1,8 +1,7 @@
-//const { data } = require("jquery");
-
 const app = Sammy('#main', function () {
 
     this.use('Handlebars', 'hbs');
+
 
     //Home
     this.get('/home', function (context) {
@@ -11,25 +10,29 @@ const app = Sammy('#main', function () {
             .then(response => response.json())
             .then(data => {
 
-                data = data || {} //??
+                data = data || {}
 
                 context.shoes = []
 
                 Object.entries(data).forEach(([key, value]) => {
-                    let { model, price, imgURL, description, brand } = value
+                    let { model, price, imgURL, description, brand, buyers } = value
 
                     let shoe = {
-                        _id: key,
+                        key,
                         model,
                         price,
                         imgURL,
                         description,
-                        brand
+                        brand,
+                        buyers: buyers || []
                     }
 
                     context.shoes.push(shoe)
 
                 });
+
+
+                context.shoes = context.shoes.sort((curr, next) => next.buyers.length - curr.buyers.length)
 
                 preloadPartials(context)
                     .then(function () {
@@ -37,19 +40,44 @@ const app = Sammy('#main', function () {
                     })
 
             })
-            .catch(err => console.log(err))
+            .catch( errorHandler)
 
 
     })
+    this.get('/home/:key', function (context) {
+        let key = context.params.key
+        fetch(getURL(key))
+            .then(response => response.json())
+            .then(data => {
+                let { brand, model, imgURL, description, price } = data
+                context.brand = brand
+                context.model = model
+                context.imgURL = imgURL
+                context.description = description
+                context.price = price
+                context.key = key
+                context.isOwner = data.owner == JSON.parse(localStorage.loggedUser).email
 
-    //Catalog
-    this.get('/catalog', function (context) {
-        preloadPartials(context)
-            .then(function () {
-                this.partial('./templates/catalog.hbs')
 
+                context.notBought = true;
+
+                if (data.buyers) {
+                    context.notBought = !data.buyers.some(b => b == JSON.parse(localStorage.loggedUser).email)
+                }
+
+                preloadPartials(context)
+                    .then(function () {
+                        this.partial('./templates/details.hbs')
+
+                    })
             })
+            .catch(errorHandler)
+
+
+
     })
+
+
 
     //Create-offer
     this.get('/create-offer', function (context) {
@@ -64,25 +92,34 @@ const app = Sammy('#main', function () {
 
         let { model, price, imgURL, description, brand } = context.params
 
+        if (model == '' ||
+            price == '' ||
+            imgURL == '' ||
+            description == '' ||
+            brand == '') {
+            alert("All fields are required")
+            return
+        }
+
         let offer = {
             model,
             price,
             imgURL,
             description,
             brand,
-            creator: JSON.parse(localStorage.loggedUser).email,
+            owner: JSON.parse(localStorage.loggedUser).email,
             buyers: []
         }
 
         fetch(getURL(), { method: 'POST', body: JSON.stringify(offer) })
             .then(response => response.json())
             .then(data => {
-                this.redirect('/home')
+                this.redirect('#/home')
             })
-            .catch(error => console.log(error))
+            .catch(errorHandler)
     })
 
-    //Details
+    // Details
     this.get('/details', function (context) {
         preloadPartials(context)
             .then(function () {
@@ -91,16 +128,102 @@ const app = Sammy('#main', function () {
             })
     })
 
+
+
     //Edit
-    this.get('/edit', function (context) {
-        preloadPartials(context)
-            .then(function () {
-                this.partial('./templates/edit.hbs')
+    this.get('/edit/:key', function (context) {
+        context.key = context.params.key
+
+        fetch(getURL(context.params.key))
+            .then(res => res.json())
+            .then(data => {
+                context.brand = data.brand
+                context.model = data.model
+                context.imgURL = data.imgURL
+                context.description = data.description
+                context.price = data.price
+
+                preloadPartials(context)
+                    .then(function () {
+                        this.partial('./templates/edit.hbs')
+
+                    })
 
             })
+            .catch(errorHandler)
+
+
+
+    })
+
+    this.post('/edit/:key', function (context) {
+
+        const { model, price, imgURL, description, brand } = context.params
+        let editedOffer = {
+            model,
+            price,
+            imgURL,
+            description,
+            brand
+        }
+
+        fetch(getURL(context.params.key), { method: 'PATCH', body: JSON.stringify(editedOffer) })
+            .then(res => res.json())
+            .then(data => {
+                this.redirect(`#/home/${context.params.key}`)
+            })
+            .catch(errorHandler)
     })
 
 
+    //Buy
+    this.get('/buy/:key', function (context) {
+        let key = context.params.key
+
+        fetch(getURL(key))
+            .then(response => response.json())
+            .then(data => {
+
+                let updatedBuyers = []
+                let currentUser = JSON.parse(localStorage.loggedUser).email
+                if (data.hasOwnProperty('buyers')) {
+                    updatedBuyers = [currentUser, ...data.buyers]
+                } else {
+                    updatedBuyers.push(currentUser)
+                }
+
+                let updatedBuyersObj = {
+                    buyers: updatedBuyers
+                }
+
+                fetch(getURL(key), { method: 'PATCH', body: JSON.stringify(updatedBuyersObj) })
+                    .then(response => response.json())
+                    .then(data => {
+
+
+                        this.redirect(`#/home/${key}`)
+
+
+                    })
+                    .catch(errorHandler)
+            })
+
+    })
+
+
+    //Delete
+    this.get('/delete/:key', function (context) {
+        let key = context.params.key
+
+        fetch(getURL(key), { method: 'DELETE' })
+            .then(response => response.json())
+            .then(data => {
+                this.redirect(`#/home`)
+            })
+            .catch(errorHandler)
+
+
+    })
 
 
 
@@ -119,14 +242,27 @@ const app = Sammy('#main', function () {
     this.post('/register', function (context) {
 
         let { email, password, repassword } = context.params
+
+        if (email == '' ||
+            password == '' ||
+            repassword == '') {
+            alert("All fields are required")
+            return
+        }
+
+        if (password.length < 6) {
+            alert("Password should be at least 6 characters long!")
+            return
+        }
         if (password != repassword) {
+            alert("Repeat Password does not match!")
             return
         }
 
         firebase.auth()
             .createUserWithEmailAndPassword(email, password)
-            .then(this.redirect('/login'))
-            .catch(err => console.log(err))
+            .then(this.redirect('#/home'))
+            .catch(errorHandler)
 
     })
 
@@ -180,10 +316,10 @@ const app = Sammy('#main', function () {
 
                     )
                 }
-                this.redirect('/home')
+                this.redirect('#/home')
             }
             )
-            .catch(err => console.log(err))
+            .catch(errorHandler)
 
         context.isLoggedIn = true
 
@@ -197,10 +333,10 @@ const app = Sammy('#main', function () {
             .then(() => {
 
                 localStorage.removeItem('loggedUser')
-                this.redirect('/home')
+                this.redirect('#/login')
 
             })
-            .catch(err => console.log(err))
+            .catch(errorHandler)
     })
 
 
@@ -244,6 +380,10 @@ function validateLoggedUser(context) {
     }
 
 
+}
+
+function errorHandler(error){
+    console.log(error)
 }
 
 
