@@ -25,6 +25,7 @@ const app = Sammy('#main', function () {
                         description,
                         brand,
                         buyers: buyers || []
+
                     }
 
                     context.shoes.push(shoe)
@@ -40,7 +41,7 @@ const app = Sammy('#main', function () {
                     })
 
             })
-            .catch( errorHandler)
+            .catch(errorHandler)
 
 
     })
@@ -49,13 +50,14 @@ const app = Sammy('#main', function () {
         fetch(getURL(key))
             .then(response => response.json())
             .then(data => {
-                let { brand, model, imgURL, description, price } = data
+                let { brand, model, imgURL, description, price, buyers } = data
                 context.brand = brand
                 context.model = model
                 context.imgURL = imgURL
                 context.description = description
                 context.price = price
                 context.key = key
+                context.count = (buyers || []).length
                 context.isOwner = data.owner == JSON.parse(localStorage.loggedUser).email
 
 
@@ -344,7 +346,7 @@ const app = Sammy('#main', function () {
 });
 
 (() => {
-    app.run('/home')
+    app.run('#/home')
 })()
 
 function preloadPartials(context) {
@@ -382,7 +384,7 @@ function validateLoggedUser(context) {
 
 }
 
-function errorHandler(error){
+function errorHandler(error) {
     console.log(error)
 }
 

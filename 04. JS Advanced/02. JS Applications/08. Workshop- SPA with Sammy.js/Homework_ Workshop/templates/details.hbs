@@ -5,22 +5,23 @@
         <img src="{{imgURL}}" alt="">
         <div class="description">{{description}}
             <br>
+            Buyers: {{count}}
             <br>
             <p class="price">{{price}}</p>
         </div>
     </div>
     <div class="actions">
         {{#if isLoggedIn}}
-            {{#if isOwner}}
-            <a href="#/edit/{{key}}">Edit</a>
-            <a href="#/delete/{{key}}">Delete</a>
-            {{else}}
-                {{#if notBought}}
-                <a href="#/buy/{{key}}">Buy</a>
-                {{else}}
-                <span>You bought it</span>
-                {{/if}}
-            {{/if}}
+        {{#if isOwner}}
+        <a href="#/edit/{{key}}">Edit</a>
+        <a href="#/delete/{{key}}">Delete</a>
+        {{else}}
+        {{#if notBought}}
+        <a href="#/buy/{{key}}">Buy</a>
+        {{else}}
+        <span>You bought it</span>
+        {{/if}}
+        {{/if}}
         {{/if}}
     </div>
 </div>
