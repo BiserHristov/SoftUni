@@ -294,33 +294,37 @@ const app = Sammy('#main', function () {
                     uid: data.user.uid
                 }
 
-                if (!localStorage.usersInfo) {
-                    const users = []
-                    users.push(user);
-                    localStorage.setItem('usersInfo', JSON.stringify(users));
-                    localStorage.setItem('loggedUser', JSON.stringify(user));
 
-                } else {
+                localStorage.setItem('loggedUser', JSON.stringify(user));
 
-                    let existingUser = takeExistingUser(email)
 
-                    if (!existingUser) {
 
-                        let updatedInfoArr = JSON.parse(localStorage.usersInfo)
-                        updatedInfoArr.push(user);
-                        localStorage.usersInfo = JSON.stringify(updatedInfoArr)
+                // if (!localStorage.usersInfo) {
+                //     const users = []
+                //     users.push(user);
+                //     localStorage.setItem('usersInfo', JSON.stringify(users));
+                //     localStorage.setItem('loggedUser', JSON.stringify(user));
 
-                        localStorage.setItem('loggedUser', JSON.stringify(user));
+                // } else {
 
-                    }
-                    else (
-                        localStorage.setItem('loggedUser', JSON.stringify(existingUser))
+                //     let existingUser = takeExistingUser(email)
 
-                    )
-                }
+                //     if (!existingUser) {
+
+                //         let updatedInfoArr = JSON.parse(localStorage.usersInfo)
+                //         updatedInfoArr.push(user);
+                //         localStorage.usersInfo = JSON.stringify(updatedInfoArr)
+
+                //         localStorage.setItem('loggedUser', JSON.stringify(user));
+
+                //     }
+                //     else (
+                //         localStorage.setItem('loggedUser', JSON.stringify(existingUser))
+
+                //     )
+                // }
                 this.redirect('#/home')
-            }
-            )
+            })
             .catch(errorHandler)
 
         context.isLoggedIn = true
