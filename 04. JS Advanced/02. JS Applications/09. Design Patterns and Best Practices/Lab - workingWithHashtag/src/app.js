@@ -19,10 +19,13 @@ const app = Sammy('#main', function () {
 
     //Home
     this.get('/home', homePage)
+    this.get('index.html', homePage)
+    this.get('#/home', homePage)
+
 
     //Create-offer
     this.get('/create-offer', createPage)
-    this.post('/create-offer', createPost)
+    this.post('/create-offer', ctx => { createPost.call(ctx); });
 
     // Details
     this.get('/details', detailsPage)
@@ -30,7 +33,7 @@ const app = Sammy('#main', function () {
 
     //Edit
     this.get('/edit/:key', editPage)
-    this.post('/edit/:key', editPost)
+    this.post('/edit/:key', ctx => { editPost.call(ctx); });
 
     //Buy
     this.get('/buy/:key', buyPage)
@@ -40,11 +43,11 @@ const app = Sammy('#main', function () {
 
     //Register
     this.get('/register', registerPage)
-    this.post('/register', registerPost)
+    this.post('/register', ctx => { registerPost.call(ctx); });
 
     //LogIn
     this.get('/login', loginPage)
-    this.post('/login', loginPost)
+    this.post('/login', ctx => { loginPost.call(ctx); });
 
     //Logout
     this.get('/logout', logout)
@@ -52,4 +55,3 @@ const app = Sammy('#main', function () {
 });
 init();
 app.run('#/home')
-

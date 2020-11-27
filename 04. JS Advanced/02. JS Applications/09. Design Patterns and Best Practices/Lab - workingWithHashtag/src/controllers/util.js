@@ -1,14 +1,9 @@
 
 export async function preloadPartials(context) {
 
-    // validateLoggedUser(context);
-    const partials = await Promise.all([
-        context.load('./templates/common/header.hbs'),
-        context.load('./templates/common/footer.hbs')
-    ])
     context.partials = {
-        header: partials[0],
-        footer: partials[1]
+        header: await context.load('./templates/common/header.hbs'),
+        footer: await context.load('./templates/common/footer.hbs')
     }
 
 }
@@ -17,10 +12,6 @@ export function getURL(endpoint) {
     let result = `https://shoesite-cb8df.firebaseio.com/` + (endpoint ? `${endpoint}` : '') + `.json`
     return result;
 }
-
-// export function takeExistingUser(email) {
-//     return JSON.parse(localStorage.usersInfo).find(u => u.email == email)
-// }
 
 export function getUser() {
 
