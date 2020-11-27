@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../public/styles.css">
+    <link rel="icon" type="image/png" href="./public/favicon.png">
+    <title>Shoe Shelf</title>
+</head>
+
+<body>
+
+    <main id="app"></main>
+    <footer>
+        <p><a href="https://softuni.bg">Software University</a> - JS Applications @ 2020</p>
+    </footer>
+
+
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+    
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyD3WOA75nHiyNMjKjcxIOamlZ8vLW7210M",
+            authDomain: "shoe-shelf-c0c62.firebaseapp.com",
+            databaseURL: "https://shoe-shelf-c0c62.firebaseio.com",
+            projectId: "shoe-shelf-c0c62",
+            storageBucket: "shoe-shelf-c0c62.appspot.com",
+            messagingSenderId: "174806639697",
+            appId: "1:174806639697:web:6ae757f4eaad300eb48470"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./node_modules/handlebars/dist/handlebars.min.js"></script>
+    <script src="./node_modules/sammy/lib/sammy.js"></script>
+    <script src="./node_modules/sammy/lib/plugins/sammy.handlebars.js"></script>
+    <script src="./script.js"></script>
+</body>
+
+</html>

@@ -4,7 +4,13 @@ const app = Sammy('#container', function () {
 
 
     //Home
-    this.get('/home', function (context) {
+    this.get('home', homePage)
+    this.get('index.html', homePage)
+    this.get('/', homePage)
+
+
+
+    function homePage(context) {
 
         fetch(getURL())
             .then(response => response.json())
@@ -61,21 +67,19 @@ const app = Sammy('#container', function () {
 
                 preloadPartials(context)
                     .then(function () {
-                        this.partial('./templates/home.hbs')
+                        this.partial('/templates/home.hbs')
                     })
             })
             .catch(errorHandler)
 
-    })
-
-
+    }
 
 
     //Add-movie
     this.get('/add-movie', function (context) {
         preloadPartials(context)
             .then(function () {
-                this.partial('./templates/add-movie.hbs')
+                this.partial('/templates/add-movie.hbs')
 
             })
     })
@@ -102,7 +106,7 @@ const app = Sammy('#container', function () {
         fetch(getURL(), { method: 'POST', body: JSON.stringify(movie) })
             .then(response => response.json())
             .then(data => {
-                this.redirect('#/home')
+                this.redirect('/home')
             })
             .catch(errorHandler)
     })
@@ -136,7 +140,7 @@ const app = Sammy('#container', function () {
 
                 preloadPartials(context)
                     .then(function () {
-                        this.partial('./templates/details.hbs')
+                        this.partial('/templates/details.hbs')
                     })
 
             })
@@ -152,13 +156,15 @@ const app = Sammy('#container', function () {
             .then(response => response.json())
             .then(data => {
 
+
                 context.key = key
+                context = Object.assign(context, data)
 
 
 
                 preloadPartials(context)
                     .then(function () {
-                        this.partial('./templates/edit.hbs')
+                        this.partial('/templates/edit.hbs')
                     })
 
             })
@@ -188,7 +194,7 @@ const app = Sammy('#container', function () {
         fetch(getURL(context.params.key), { method: 'PATCH', body: JSON.stringify(movie) })
             .then(res => res.json())
             .then(data => {
-                this.redirect(`#/details/${context.params.key}`)
+                this.redirect(`/details/${context.params.key}`)
             })
             .catch(errorHandler)
     })
@@ -204,7 +210,7 @@ const app = Sammy('#container', function () {
         fetch(getURL(key), { method: 'DELETE' })
             .then(response => response.json())
             .then(data => {
-                this.redirect(`#/home`)
+                this.redirect(`/home`)
             })
             .catch(errorHandler)
 
@@ -237,7 +243,7 @@ const app = Sammy('#container', function () {
                     .then(response => response.json())
                     .then(patchData => {
 
-                        this.redirect(`#/details/${key}`)
+                        this.redirect(`/details/${key}`)
 
                     })
 
@@ -253,7 +259,7 @@ const app = Sammy('#container', function () {
 
         preloadPartials(context)
             .then(function () {
-                this.partial('./templates/register.hbs')
+                this.partial('/templates/register.hbs')
 
             })
     })
@@ -289,7 +295,7 @@ const app = Sammy('#container', function () {
 
 
                 localStorage.setItem('loggedUser', JSON.stringify(user));
-                this.redirect('#/home')
+                this.redirect('/home')
             })
             .catch(errorHandler)
 
@@ -300,7 +306,7 @@ const app = Sammy('#container', function () {
     this.get('/login', function (context) {
         preloadPartials(context)
             .then(function () {
-                this.partial('./templates/login.hbs')
+                this.partial('/templates/login.hbs')
 
             })
     })
@@ -321,7 +327,7 @@ const app = Sammy('#container', function () {
 
                 localStorage.setItem('loggedUser', JSON.stringify(user));
 
-                this.redirect('#/home')
+                this.redirect('/home')
             })
             .catch(errorHandler)
 
@@ -337,7 +343,7 @@ const app = Sammy('#container', function () {
             .then(() => {
 
                 localStorage.removeItem('loggedUser')
-                this.redirect('#/login')
+                this.redirect('/login')
 
             })
             .catch(errorHandler)
@@ -355,8 +361,8 @@ function preloadPartials(context) {
     validateLoggedUser(context);
 
     return context.loadPartials({
-        'header': './templates/common/header.hbs',
-        'footer': './templates/common/footer.hbs',
+        'header': '/templates/common/header.hbs',
+        'footer': '/templates/common/footer.hbs',
     })
 
 }

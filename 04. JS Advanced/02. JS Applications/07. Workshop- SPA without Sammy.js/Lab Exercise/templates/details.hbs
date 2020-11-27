@@ -11,11 +11,11 @@
             <h3 class="my-3 ">Movie Description</h3>
             <p>{{description}}</p>
             {{#if isOwner}}
-                <a class="btn btn-danger" href="#/delete/{{key}}">Delete</a>
-                <a class="btn btn-warning" href="#/edit/{{key}}">Edit</a>
+                <a class="btn btn-danger" href="/delete/{{key}}">Delete</a>
+                <a class="btn btn-warning" href="/edit/{{key}}">Edit</a>
                 {{else}}
                     {{#if isNotLiked}}
-                    <a class="btn btn-primary" href="#/like/{{key}}">Like</a>
+                    <a class="btn btn-primary" href="/like/{{key}}">Like</a>
                     {{else}}
                     <span class="enrolled-span">Liked {{likesCount}}</span>
                     {{/if}}

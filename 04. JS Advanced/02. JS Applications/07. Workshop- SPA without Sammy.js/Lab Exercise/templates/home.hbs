@@ -8,8 +8,8 @@
 {{#if isLoggedIn}}
 <h1 class="text-center">Movies</h1>
 <section>
-    <a href="#/add-movie" class="btn btn-warning ">Add Movie</a>
-    <form class="search float-right" action="#/home" method="GET">
+    <a href="/add-movie" class="btn btn-warning ">Add Movie</a>
+    <form class="search float-right" action="/home" method="GET">
         <label>Search: </label>
         <input type="text" name="title">
         <input type="submit" class="btn btn-info" value="Search">
@@ -28,7 +28,7 @@
                     <h4 class="card-title">{{title}}</h4>
                 </div>
                 <div class="card-footer">
-                    <a href="#/details/{{key}}"><button type="button" class="btn btn-info">Details</button></a>
+                    <a href="/details/{{key}}"><button type="button" class="btn btn-info">Details</button></a>
                 </div>
 
             </div>

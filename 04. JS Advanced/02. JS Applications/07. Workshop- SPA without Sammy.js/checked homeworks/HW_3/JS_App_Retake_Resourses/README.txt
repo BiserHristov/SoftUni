@@ -1,0 +1,1 @@
+Put this into the console - npm install jquery handlebars sammy - to be able to use this SPA.
