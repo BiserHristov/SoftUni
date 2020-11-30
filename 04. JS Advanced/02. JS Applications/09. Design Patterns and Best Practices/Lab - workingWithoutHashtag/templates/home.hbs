@@ -2,11 +2,11 @@
 <div class="container">
     {{#if isLoggedIn}}
     <div class="shoes">
-        {{#each shoes}}
+        {{#each offers}}
         <div class="shoe">
             <img src="{{imgURL}}">
             <h3>{{model}}</h3>
-            <a href="/details/{{key}}">Buy it for ${{price}}</a>
+            <a href="/details/{{_id}}">Buy it for ${{price}}</a>
         </div>
         {{else}}
         <h1>No shoes to display. Be the first to create new offer...</h1>

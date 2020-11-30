@@ -13,11 +13,11 @@
     <div class="actions">
         {{#if isLoggedIn}}
         {{#if isOwner}}
-        <a href="/edit/{{key}}">Edit</a>
-        <a href="/delete/{{key}}">Delete</a>
+        <a href="/edit/{{_id}}">Edit</a>
+        <a href="/delete/{{_id}}">Delete</a>
         {{else}}
         {{#if notBought}}
-        <a href="/buy/{{key}}">Buy</a>
+        <a href="/buy/{{_id}}">Buy</a>
         {{else}}
         <span>You bought it</span>
         {{/if}}
