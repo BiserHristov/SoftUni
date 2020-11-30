@@ -1,0 +1,22 @@
+{
+  "name": "homework-exercise_-routing-1031938",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run lite",
+    "lite": "lite-server"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.5.3",
+    "handlebars": "^4.7.6",
+    "jquery": "^3.5.1",
+    "sammy": "^0.7.6"
+  },
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
+}
