@@ -29,6 +29,7 @@ export function objectToArray(data) {
 }
 
 
+
 export function getUser() {
 
     const loggedUser = localStorage.getItem('loggedUser')

@@ -1,4 +1,7 @@
-import { getUser, objectToArray, setUserData } from "./controllers/util.js";
+//import { setUserData } from "./controllers/util.js";
+
+import { getUser, objectToArray } from "./controllers/util.js"
+
 
 const apiKey = "AIzaSyChmbdiHeX1HZue7rEAEyPsCiNWZFY9Exo" //CHANGE IT!
 
@@ -69,31 +72,30 @@ export async function register(email, password) {
 }
 window.register = register;
 
-// export async function createApiOffer(offer) {
-//     return await post(getURL(endpoints.SHOES), offer)
-// }
+export async function createApiPost(offer) {
+    return await post(getURL(endpoints.SHOES), offer);
 
-// export async function getAllOffers() {
+}
 
-//     let response = await get(getURL(endpoints.SHOES))
-//     return objectToArray(response)
-// }
+export async function getAllApiShoes() {
+    let response = await get(getURL(endpoints.SHOES));
+    return objectToArray(response)
+}
 
-// export async function getApiOfferById(id) {
+export async function getApiItemById(id) {
+    let response = await get(getURL(endpoints.SHOE_BY_ID + id));
+    response._id = id;
+    return response;
+}
 
-//     let response = await get(getURL(endpoints.SHOE_BY_ID + id))
-//     response._id = id
-//     return response
-// }
+export async function editApiItemById(shoeId, editedShoe) {
+    return await patch(getURL(endpoints.SHOE_BY_ID + shoeId), editedShoe);
 
-// export async function editApiOfferById(id, editedOffer) {
+}
 
-//     return await patch(getURL(endpoints.SHOE_BY_ID + id), editedOffer)
+export async function deleteItemById(shoeId) {
+    return await del(getURL(endpoints.SHOE_BY_ID + shoeId));
 
-// }
+}
 
-// export async function deleteOfferById(id) {
 
-//     return await del(getURL(endpoints.SHOE_BY_ID + id))
-
-// }

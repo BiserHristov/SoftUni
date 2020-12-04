@@ -17,7 +17,7 @@ export function showInfo(message) {
 export function showError(message) {
     elements.error.children[0].textContent = message;
     elements.error.style.display = 'block';
-	setTimeout(hideError, 5000);
+    setTimeout(hideError, 5000);
 }
 
 let requests = 0;
