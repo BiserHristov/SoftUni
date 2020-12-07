@@ -75,12 +75,12 @@ export async function detailsPage(context) {
 export async function editOfferPage(context) {
 
     let { _ownerId, _id } = context.params
-
-    if (_ownerId != getUser().localId) {
-        return
-    }
-
     try {
+        if (_ownerId != getUser().localId) {
+            throw new Error('You are not allowed to edit this destination!')
+        }
+
+
         showLoading();
         let dest = await getApiOfferById(getUser().localId, _id)
         hideLoading();
