@@ -1,16 +1,12 @@
 import { loginPage, loginPost, logout, registerPage, registerPost } from './controllers/user.js';
 import { homePage } from './controllers/home.js';
 import { createOfferPage, createOfferPost, deleteOfferPage, detailsPage, editOfferPage, editOfferPost, myDestinationsPage } from './controllers/catalog.js';
-// import { getUser } from './controllers/util.js';
-// import { showError,showInfo } from './notification.js';
+
 
 
 const app = Sammy('#container', function () {
   this.use('Handlebars', 'hbs')
 
-
-  // console.log('Handlebars -> ' + Handlebars)
-  // console.log('Sammy -> ' + Sammy)
 
   //   const user = getUser()
 

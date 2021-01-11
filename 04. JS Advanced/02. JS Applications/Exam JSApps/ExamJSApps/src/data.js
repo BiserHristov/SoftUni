@@ -97,8 +97,6 @@ export async function getAllOffers() {
     }
 
     return result;
-    // let response = await get(getURL(endpoints.DEST))
-    // return objectToArray(response)
 }
 
 export async function getApiOfferById(userId, destId) {

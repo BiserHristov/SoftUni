@@ -21,8 +21,6 @@ export function objectToArray(data) {
         return []
     } else {
         return Object.entries(data).map(([key, value]) => {
-
-            //value.buyers = value.buyers || [] //CHECK IF I NEED THAT!!!!
             return Object.assign({ _id: key }, value)
         })
     }
