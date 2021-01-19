@@ -39,7 +39,7 @@ namespace SoftUniParking
             }
             else if (this.Cars.Count == this.Capacity)
             {
-                return "Parking is fulll!";
+                return "Parking is full!";
             }
             else
             {
