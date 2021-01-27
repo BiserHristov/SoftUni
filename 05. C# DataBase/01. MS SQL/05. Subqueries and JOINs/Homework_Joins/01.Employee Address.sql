@@ -1,4 +1,5 @@
-SELECT TOP(5) e.EmployeeId,
+SELECT TOP(5) 
+   e.EmployeeId,
    e.JobTitle, 
    e.AddressID, 
    a.AddressText 
