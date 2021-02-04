@@ -8,7 +8,7 @@ WHERE EmployeeID IN (SELECT EmployeeID FROM Employees WHERE DepartmentID=@depart
 
 --UPDATE Employees
 --SET ManagerID=NULL
---WHERE EmployeeID IN (SELECT EmployeeID FROM Employees WHERE DepartmentID=1)
+--WHERE EmployeeID IN (SELECT EmployeeID FROM Employees WHERE DepartmentID=1) 
 
 UPDATE Employees
 SET ManagerID=NULL
