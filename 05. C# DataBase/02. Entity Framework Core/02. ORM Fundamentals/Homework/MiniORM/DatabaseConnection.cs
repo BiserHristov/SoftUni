@@ -10,6 +10,7 @@
 	/// Used for accessing a database, inserting/updating/deleting entities
 	/// and mapping database columns to entity classes.
 	/// </summary>
+	
 	internal class DatabaseConnection
 	{
 		private readonly SqlConnection connection;
@@ -76,9 +77,11 @@
 					while (reader.Read())
 					{
 						var columnValues = new object[reader.FieldCount];
+
 						reader.GetValues(columnValues);
 
 						var obj = reader.GetFieldValue<T>(0);
+
 						rows.Add(obj);
 					}
 				}
@@ -92,7 +95,9 @@
 			var rows = new List<T>();
 
 			var escapedColumns = string.Join(", ", columnNames.Select(EscapeColumn));
-			var queryText = $@"SELECT {escapedColumns} FROM {tableName}";
+
+			var queryText = 
+            $@"SELECT {escapedColumns} FROM {tableName}";
 
 			using (var query = CreateCommand(queryText))
 			{
@@ -127,7 +132,8 @@
 					.ToArray())
 				.ToArray();
 
-			var rowParameterNames = Enumerable.Range(1, rowValues.Length)
+			var rowParameterNames = Enumerable
+                .Range(1, rowValues.Length)
 				.Select(i => columnsToInsert.Select(c => c + i).ToArray())
 				.ToArray();
 
@@ -165,9 +171,12 @@
 		{
 			var identityColumns = GetIdentityColumns(tableName);
 
-			var columnsToUpdate = columns.Except(identityColumns).ToArray();
+			var columnsToUpdate = columns
+                .Except(identityColumns)
+                .ToArray();
 
-			var primaryKeyProperties = typeof(T).GetProperties()
+			var primaryKeyProperties = typeof(T)
+                .GetProperties()
 				.Where(pi => pi.HasAttribute<KeyAttribute>())
 				.ToArray();
 
@@ -211,7 +220,8 @@
 		public void DeleteEntities<T>(IEnumerable<T> entitiesToDelete, string tableName, string[] columns)
 			where T : class
 		{
-			var primaryKeyProperties = typeof(T).GetProperties()
+			var primaryKeyProperties = typeof(T)
+                .GetProperties()
 				.Where(pi => pi.HasAttribute<KeyAttribute>())
 				.ToArray();
 
@@ -256,16 +266,20 @@
 		public SqlTransaction StartTransaction()
 		{
 			this.transaction = this.connection.BeginTransaction();
+
 			return this.transaction;
 		}
 
-		public void Open() => this.connection.Open();
+		public void Open() 
+            => this.connection.Open();
 
-		public void Close() => this.connection.Close();
+		public void Close()
+            => this.connection.Close();
 
 		private static string EscapeColumn(string c)
 		{
 			var escapedColumn = $"[{c}]";
+
 			return escapedColumn;
 		}
 
@@ -284,6 +298,7 @@
 				}
 
 				var property = typeof(T).GetProperty(columnName);
+
 				property.SetValue(obj, columnValue);
 			}
 
