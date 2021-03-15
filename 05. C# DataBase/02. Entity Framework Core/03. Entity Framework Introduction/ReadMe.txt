@@ -10,7 +10,7 @@
 	4.2  ->    dotnet ef dbcontext scaffold "Server=.;Integrated Security=true;Database=SoftUni" Microsoft.EntityFrameworkCore.SqlServer -o Models -f -d
 			(-f oznachava da prezapishe daden klas ako veche e suzdaden
 			 -d oznachava koqto informaciq e vyzmojno dai mi ia s atributi, koiato ne- s fluent API)
-
+4.//Code First:
        dotnet ef migrations add InitialCreate
        dotnet ef database update
 
