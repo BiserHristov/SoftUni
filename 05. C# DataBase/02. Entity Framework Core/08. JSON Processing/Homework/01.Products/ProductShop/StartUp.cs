@@ -7,7 +7,9 @@ using System.Text;
 //using System.Text.Json.Serialization;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 //using Newtonsoft.Json;
 //using Newtonsoft.Json;
 using ProductShop.Data;
@@ -25,8 +27,8 @@ namespace ProductShop
 
 
             var db = new ProductShopContext();
-            db.Database.EnsureDeleted();
-            db.Database.EnsureCreated();
+            //db.Database.EnsureDeleted();
+            //db.Database.EnsureCreated();
             string result = string.Empty;
 
             //Task 2
@@ -55,20 +57,148 @@ namespace ProductShop
             //result = ImportCategoryProducts(db, categoriesProductsJson);
 
             //Task 6
-            string usersJson = File.ReadAllText(@"..\..\..\Datasets\users.json");
-            string productsJson = File.ReadAllText(@"..\..\..\Datasets\products.json");
-            string categoriesJson = File.ReadAllText(@"..\..\..\Datasets\categories.json");
-            string categoriesProductsJson = File.ReadAllText(@"..\..\..\Datasets\categories-products.json");
+            //string usersJson = File.ReadAllText(@"..\..\..\Datasets\users.json");
+            //string productsJson = File.ReadAllText(@"..\..\..\Datasets\products.json");
+            //string categoriesJson = File.ReadAllText(@"..\..\..\Datasets\categories.json");
+            //string categoriesProductsJson = File.ReadAllText(@"..\..\..\Datasets\categories-products.json");
 
-            ImportUsers(db, usersJson);
-            ImportProducts(db, productsJson);
-            ImportCategories(db, categoriesJson);
-            ImportCategoryProducts(db, categoriesProductsJson);
+            //ImportUsers(db, usersJson);
+            //ImportProducts(db, productsJson);
+            //ImportCategories(db, categoriesJson);
+            //ImportCategoryProducts(db, categoriesProductsJson);
 
-            result = GetProductsInRange(db);
+            //result = GetProductsInRange(db);
 
+            //Task 7
+            //result = GetSoldProducts(db);
+
+            //Task 8
+            //string usersJson = File.ReadAllText(@"..\..\..\Datasets\users.json");
+            //string productsJson = File.ReadAllText(@"..\..\..\Datasets\products.json");
+            //string categoriesJson = File.ReadAllText(@"..\..\..\Datasets\categories.json");
+            //string categoriesProductsJson = File.ReadAllText(@"..\..\..\Datasets\categories-products.json");
+
+            //ImportUsers(db, usersJson);
+            //ImportProducts(db, productsJson);
+            //ImportCategories(db, categoriesJson);
+            //ImportCategoryProducts(db, categoriesProductsJson);
+
+            //result = GetCategoriesByProductsCount(db);
+
+            //Task 9
+            //string usersJson = File.ReadAllText(@"..\..\..\Datasets\users.json");
+            //string productsJson = File.ReadAllText(@"..\..\..\Datasets\products.json");
+            //string categoriesJson = File.ReadAllText(@"..\..\..\Datasets\categories.json");
+            //string categoriesProductsJson = File.ReadAllText(@"..\..\..\Datasets\categories-products.json");
+
+            //ImportUsers(db, usersJson);
+            //ImportProducts(db, productsJson);
+            //ImportCategories(db, categoriesJson);
+            //ImportCategoryProducts(db, categoriesProductsJson);
+
+            result = GetUsersWithProducts(db);
             Console.WriteLine(result);
 
+
+        }
+
+        //Task 9
+        public static string GetUsersWithProducts(ProductShopContext context)
+        {
+            var users = context.Users
+                .Include(x => x.ProductsSold)
+                .ToList()
+                .Where(u => u.ProductsSold.Count >= 1 &&
+                            u.ProductsSold.Any(b => b.BuyerId != null))
+
+                .Select(u => new
+                {
+                    firstName = u.FirstName,
+                    lastName = u.LastName,
+                    age = u.Age,
+                    soldProducts = new
+                    {
+                        count = u.ProductsSold.Where(b => b.BuyerId != null).Count(),
+                        products = u.ProductsSold
+                                        .Where(b => b.BuyerId != null)
+                                        .Select(p => new
+                                        {
+                                            name = p.Name,
+                                            price = p.Price
+
+                                        })
+                    }
+                })
+                 .OrderByDescending(u => u.soldProducts.count)
+                .ToList();
+
+            var resultObject = new
+            {
+                usersCount = users.Count,
+                users = users
+            };
+
+            var options = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            };
+
+            var jsonUsers = JsonConvert.SerializeObject(resultObject, Formatting.Indented, options);
+            //var jObject = JObject.Parse(jsonUsers);
+            //jObject.Add("usersCount", jObject.Count);
+            return jsonUsers;
+
+        }
+
+        //Task 8
+        public static string GetCategoriesByProductsCount(ProductShopContext context)
+        {
+            var categories = context.Categories
+                .OrderByDescending(x => x.CategoryProducts.Count)
+                .Select(c => new
+                {
+                    category = c.Name,
+                    productsCount = c.CategoryProducts.Count(),
+                    averagePrice = c.CategoryProducts.Count() == 0 ?
+                                        0.ToString("F2") :
+                                        c.CategoryProducts.Average(y => y.Product.Price).ToString("F2"),
+                    totalRevenue = c.CategoryProducts.Sum(y => y.Product.Price).ToString("F2")
+
+                })
+                .ToList();
+
+            var jsonCategories = JsonConvert.SerializeObject(categories, Formatting.Indented);
+            return jsonCategories;
+        }
+
+
+        //Task 7
+        public static string GetSoldProducts(ProductShopContext context)
+        {
+            var users = context.Users
+                .Where(u => u.ProductsSold.Count() >= 1 && u.ProductsSold.Any(p => p.BuyerId != null))
+                .OrderBy(u => u.LastName)
+                .ThenBy(u => u.FirstName)
+                .Select(u => new
+                {
+                    firstName = u.FirstName,
+                    lastName = u.LastName,
+                    soldProducts = u.ProductsSold
+                        .Where(p => p.BuyerId != null)
+                        .Select(b => new
+                        {
+                            name = b.Name,
+                            price = b.Price,
+                            buyerFirstName = b.Buyer.FirstName,
+                            buyerLastName = b.Buyer.LastName
+
+                        })
+                        .ToList()
+                })
+                .ToList();
+
+            var jsonUsers = JsonConvert.SerializeObject(users, Formatting.Indented);
+            return jsonUsers;
         }
 
         //Task 6
