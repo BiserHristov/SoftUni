@@ -21,8 +21,8 @@ namespace ProductShop
         {
             var db = new ProductShopContext();
 
-            // db.Database.EnsureDeleted();
-            // db.Database.EnsureCreated();
+            //db.Database.EnsureDeleted();
+            //db.Database.EnsureCreated();
             string result = string.Empty;
 
             //var xmlUsers = File.ReadAllText("Datasets/users.xml");
@@ -30,20 +30,139 @@ namespace ProductShop
             //var xmlcategories = File.ReadAllText("Datasets/categories.xml");
             //var xmlcategoriesProducts = File.ReadAllText("Datasets/categories-products.xml");
 
-
-
             //ImportUsers(db, xmlUsers);
             //ImportProducts(db, xmlProducts);
             //ImportCategories(db, xmlcategories);
-            //result = ImportCategoryProducts(db, xmlcategoriesProducts);
+            //ImportCategoryProducts(db, xmlcategoriesProducts);
 
-            result = GetProductsInRange(db);
+            //Task 5
+            //result = GetProductsInRange(db);
+
+            //Task 6
+            //result = GetSoldProducts(db);
+
+            //Task 7
+            //result = GetCategoriesByProductsCount(db);
+
+            //Task 8
+            result = GetUsersWithProducts(db);
 
             Console.WriteLine(result);
         }
 
-        //Task 5: Products In Range
-        /*Get all products in a specified price range between 500 and 1000 (inclusive). Order them by price (from lowest to highest). Select only the product name, price and the full name of the buyer. Take top 10 records.
+        /*Task 8: Users and Products
+         Select users who have at least 1 sold product. Order them by the number of sold products (from highest to lowest). Select only their first and last name,
+         age, count of sold products and for each product - name and price sorted by price (descending). Take top 10 records.
+        Follow the format below to better understand how to structure your data. 
+        Return the list of suppliers to XML in the format provided below.
+        */
+
+        public static string GetUsersWithProducts(ProductShopContext context)
+        {
+            const string root = "Users";
+
+            var users = new UserRootDTO
+            {
+                Count = context.Users.Count(u => u.ProductsSold.Count >= 1),
+                Users = context.Users
+                .ToList() // or else InMemoryException in Softuni Judge!
+                .Where(u => u.ProductsSold.Count >= 1)
+                .Select(u => new UserOutputModel
+                {
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Age = u.Age,
+                    SoldProducts = new UserAndProductsSoldProductsOutputModel
+                    {
+                        Count = u.ProductsSold.Count(),
+                        Products = u.ProductsSold
+                        .Select(pp => new ProductsOutputModel
+                        {
+                            Name = pp.Name,
+                            Price = pp.Price
+                        })
+                        .OrderByDescending(p => p.Price)
+                        .ToList()
+                    }
+                })
+                .OrderByDescending(u => u.SoldProducts.Count)
+                .Take(10)
+                .ToList()
+            };
+
+
+
+            var serializer = new XmlSerializer(typeof(UserRootDTO), new XmlRootAttribute(root));
+            var stringWriter = new StringWriter();
+            var ns = new XmlSerializerNamespaces();
+            ns.Add("", "");
+            serializer.Serialize(stringWriter, users, ns);
+
+            return stringWriter.ToString().Trim();
+        }
+
+
+
+
+
+        /*Task 7: Categories By Products Count
+         Get all categories. For each category select its name, the number of products, the average price of those products and the total revenue 
+        (total price sum) of those products (regardless if they have a buyer or not). Order them by the number of products (descending) then by total revenue.
+         Return the list of suppliers to XML in the format provided below.
+        */
+
+        public static string GetCategoriesByProductsCount(ProductShopContext context)
+        {
+            InitializeAutoMapper();
+            const string root = "Categories";
+
+            var categories = context.Categories
+                .ProjectTo<CategoriesByProductsCountOutputModel>(mapper.ConfigurationProvider)
+                .OrderByDescending(x => x.Count)
+                .ThenBy(x => x.TotalRevenue)
+                .ToList();
+
+            var serializer = new XmlSerializer(typeof(List<CategoriesByProductsCountOutputModel>), new XmlRootAttribute(root));
+            var stringWriter = new StringWriter();
+            var ns = new XmlSerializerNamespaces();
+            ns.Add("", "");
+            serializer.Serialize(stringWriter, categories, ns);
+
+            return stringWriter.ToString().Trim();
+        }
+
+        /*Task 6: Sold Products
+         Get all users who have at least 1 sold item. Order them by last name, then by first name. 
+        Select the person's first and last name. For each of the sold products, select the product's name and price. 
+        Take top 5 records. 
+            Return the list of suppliers to XML in the format provided below.
+        */
+
+        public static string GetSoldProducts(ProductShopContext context)
+        {
+            InitializeAutoMapper();
+            const string root = "Users";
+
+            var users = context.Users
+                .Where(u => u.ProductsSold.Count >= 1)
+                .ProjectTo<UserSoldProductsOutputModel>(mapper.ConfigurationProvider)
+                .OrderBy(u => u.LastName)
+                .ThenBy(u => u.FirstName)
+                .Take(5)
+                .ToList();
+
+            var serializer = new XmlSerializer(typeof(List<UserSoldProductsOutputModel>), new XmlRootAttribute(root));
+            var stringWriter = new StringWriter();
+            var ns = new XmlSerializerNamespaces();
+            ns.Add("", "");
+            serializer.Serialize(stringWriter, users, ns);
+
+            return stringWriter.ToString().Trim();
+        }
+
+
+        /*Task 5: Products In Range
+        Get all products in a specified price range between 500 and 1000 (inclusive). Order them by price (from lowest to highest). Select only the product name, price and the full name of the buyer. Take top 10 records.
          Return the list of suppliers to XML in the format provided below.
          */
         public static string GetProductsInRange(ProductShopContext context)

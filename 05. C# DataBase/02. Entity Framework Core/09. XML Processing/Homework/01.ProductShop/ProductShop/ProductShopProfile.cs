@@ -2,6 +2,7 @@
 using ProductShop.Dtos.Export;
 using ProductShop.Dtos.Import;
 using ProductShop.Models;
+using System.Linq;
 
 namespace ProductShop
 {
@@ -16,6 +17,18 @@ namespace ProductShop
 
             this.CreateMap<Product, ProductInRangeOutputModel>()
                 .ForMember(p => p.Buyer, x => x.MapFrom(s => s.Buyer.FirstName + " " + s.Buyer.LastName));
+
+            this.CreateMap<Product, SoldProductOutputModel>();
+            this.CreateMap<User, UserSoldProductsOutputModel>();
+
+            this.CreateMap<Category, CategoriesByProductsCountOutputModel>()
+                .ForMember(x => x.Count, y => y.MapFrom(z => z.CategoryProducts.Count))
+                .ForMember(x => x.AveragePrice, y => y.MapFrom(z => z.CategoryProducts.Average(p => p.Product.Price)))
+                .ForMember(x => x.TotalRevenue, y => y.MapFrom(z => z.CategoryProducts.Sum(p => p.Product.Price)));
+
+
+            
+
 
 
 
