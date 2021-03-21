@@ -30,14 +30,22 @@ namespace CarDealer
                 .ForMember(x => x.Name, y => y.MapFrom(s => s.Part.Name))
                 .ForMember(x => x.Price, y => y.MapFrom(s => s.Part.Price));
 
-            this.CreateMap<Car, CarWithPartsOutputModel>()
-                .ForMember(x => x.Parts, y => y.MapFrom(s => s.PartCars.OrderByDescending(p => p.Part.Price)));
+            //this.CreateMap<Car, CarWithPartsOutputModel>()
+            //    .ForMember(x => x.Parts, y => y.MapFrom(s => s.PartCars.OrderByDescending(p => p.Part.Price)));
 
             this.CreateMap<Customer, CustomerOutputModel>()
                 .ForMember(x => x.FullName, y => y.MapFrom(s => s.Name))
                 .ForMember(x => x.BoughtCars, y => y.MapFrom(s => s.Sales.Count))
                 .ForMember(x => x.SpentMoney, y => y.MapFrom(s => s.Sales.SelectMany(d => d.Car.PartCars.Select(pc => pc.Part.Price)).Sum()));
 
+
+
+            this.CreateMap<Sale, SaleWithDiscountOutputModel>()
+                .ForMember(x => x.CustomerName, y => y.MapFrom(s => s.Customer.Name))
+                .ForMember(x => x.Price, y => y.MapFrom(s => (s.Car.PartCars.Sum(pc => pc.Part.Price))))
+                .ForMember(x => x.PriceWithDiscount, y => y.MapFrom(s => (((100 - s.Discount) / 100) * (s.Car.PartCars.Sum(pc => pc.Part.Price))).ToString().TrimEnd('0')));
+
+            this.CreateMap<Car, CarDiscountOutputModel>();
 
 
 

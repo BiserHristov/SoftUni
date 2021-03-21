@@ -36,7 +36,7 @@ namespace CarDealer
             //ImportCars(db, xmlCars);
             //ImportCustomers(db, xmlCustomers);
             //ImportSales(db, xmlSales);
-            result = GetTotalSalesByCustomer(db);
+            result = GetSalesWithAppliedDiscount(db);
 
 
 
@@ -44,6 +44,25 @@ namespace CarDealer
             Console.WriteLine(result);
 
         }
+        /*Task 19: Sales with Applied Discount
+         Get all sales with information about the car, customer and price of the sale with and without discount.
+         Return the list of suppliers to XML in the format provided below.
+         */
+
+        public static string GetSalesWithAppliedDiscount(CarDealerContext context)
+        {
+            InitializeAutoMapper();
+
+            var sales = context.Sales
+                .ProjectTo<SaleWithDiscountOutputModel>(mapper.ConfigurationProvider)
+                .ToList();
+
+            var xml = XmlConverter.Serialize(sales, "sales");
+
+            return xml;
+
+        }
+
 
 
         /*Task 18: Total Sales by Customer
