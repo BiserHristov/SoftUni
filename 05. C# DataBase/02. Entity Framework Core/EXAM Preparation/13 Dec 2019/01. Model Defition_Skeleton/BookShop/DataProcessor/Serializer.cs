@@ -30,30 +30,12 @@
                             })
                             .ToList()
                 })
-                .ToList()
+                .ToList()//To materialize or else Inmemory Exception in Judge
                 .OrderByDescending(a => a.Books.Count)
                 .ThenBy(a => a.AuthorName)
                 .ToList();
 
-            //var authors = context
-            //    .Authors
-            //    .Select(a => new
-            //    {
-            //        AuthorName = a.FirstName + " " + a.LastName,
-            //        Books = a.AuthorsBooks
-            //            .Select(ab => ab.Book)
-            //            .OrderByDescending(b => b.Price)
-            //            .Select(b => new
-            //            {
-            //                BookName = b.Name,
-            //                BookPrice = b.Price.ToString("f2")
-            //            })
-            //            .ToArray()
-            //    })
-            //    .ToArray()
-            //    .OrderByDescending(a => a.Books.Length)
-            //    .ThenBy(a => a.AuthorName)
-            //    .ToArray();
+            
 
             string result = JsonConvert.SerializeObject(authors, Formatting.Indented);
             return result;
