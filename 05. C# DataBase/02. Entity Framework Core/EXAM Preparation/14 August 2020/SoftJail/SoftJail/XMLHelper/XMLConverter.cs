@@ -8,6 +8,7 @@ namespace SoftJail.DataProcessor
 {
     public static class XmlConverter
     {
+
         public static string Serialize<T>(
             T dataTransferObjects,
             string xmlRootAttributeName)
