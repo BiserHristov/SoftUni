@@ -1,12 +1,14 @@
-﻿using System.Xml.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml.Serialization;
 
 namespace SoftJail.DataProcessor.ImportDto
 {
     [XmlType("Prisoner")]
-    public class PrisonerDTO
+    public class PrisonerXMLInputModel
     {
         [XmlAttribute("id")]
         public int Id { get; set; }
     }
 }
-//< Prisoner id = "15" />

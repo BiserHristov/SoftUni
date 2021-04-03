@@ -16,7 +16,16 @@ namespace SoftJail.DataProcessor.ExportDto
 
         [XmlElement("IncarcerationDate")]
         public string IncarcerationDate { get; set; }
+
         [XmlArray("EncryptedMessages")]
-        public MessageXMLOutputModel[] EncryptedMessages { get; set; }
+        public List<MessageXMLOutputModel> EncryptedMessages { get; set; }
     }
 }
+
+//< Prisoner >
+//    < Id > 3 </ Id >
+//    < Name > Binni Cornhill </ Name >
+
+//       < IncarcerationDate > 1967 - 04 - 29 </ IncarcerationDate >
+
+//       < EncryptedMessages >

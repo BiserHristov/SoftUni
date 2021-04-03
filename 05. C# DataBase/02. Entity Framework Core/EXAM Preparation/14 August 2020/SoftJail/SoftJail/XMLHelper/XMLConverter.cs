@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace SoftJail.XMLHelper
+namespace SoftJail.DataProcessor
 {
     public static class XmlConverter
     {
@@ -16,7 +16,7 @@ namespace SoftJail.XMLHelper
 
             var builder = new StringBuilder();
 
-            var write = new StringWriter(builder);
+            using var write = new StringWriter(builder);
             serializer.Serialize(write, dataTransferObjects, GetXmlNamespaces());
 
             return builder.ToString();
@@ -30,7 +30,7 @@ namespace SoftJail.XMLHelper
 
             var builder = new StringBuilder();
 
-            var writer = new StringWriter(builder);
+            using var writer = new StringWriter(builder);
             serializer.Serialize(writer, dataTransferObjects, GetXmlNamespaces());
 
             return builder.ToString();

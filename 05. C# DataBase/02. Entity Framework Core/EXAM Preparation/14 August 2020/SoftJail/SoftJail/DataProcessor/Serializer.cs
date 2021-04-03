@@ -3,9 +3,10 @@
 
     using Data;
     using Newtonsoft.Json;
+    using SoftJail.Data.Models;
     using SoftJail.DataProcessor.ExportDto;
-    using SoftJail.XMLHelper;
     using System;
+    using System.Globalization;
     using System.Linq;
 
     public class Serializer
@@ -24,77 +25,48 @@
                         OfficerName = po.Officer.FullName,
                         Department = po.Officer.Department.Name
                     })
-                    .OrderBy(o => o.OfficerName)
-                    .ToList(),
-                    TotalOfficerSalary = decimal.Parse(p.PrisonerOfficers
-                                        .Sum(po => po.Officer.Salary)
-                                        .ToString("F2"))
+                        .OrderBy(o => o.OfficerName)
+                        .ToList(),
+                    TotalOfficerSalary = decimal.Parse(p.PrisonerOfficers.Sum(po => po.Officer.Salary).ToString("F2"))
                 })
                 .OrderBy(p => p.Name)
                 .ThenBy(p => p.Id)
                 .ToList();
 
+
             string result = JsonConvert.SerializeObject(prisoners, Formatting.Indented);
             return result;
+
         }
 
         public static string ExportPrisonersInbox(SoftJailDbContext context, string prisonersNames)
         {
-            var names = prisonersNames.Split(",", StringSplitOptions.RemoveEmptyEntries).ToList();
+            var names = prisonersNames
+                .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                .ToList();
 
             var prisoners = context.Prisoners
                 .Where(p => names.Contains(p.FullName))
-                .Select(x => new PrisonerXMLOutputModel
+                .Select(p => new PrisonerXMLOutputModel
                 {
-                    Id = x.Id,
-                    Name = x.FullName,
-                    IncarcerationDate = x.IncarcerationDate.ToString("yyyy-MM-dd"),
-                    EncryptedMessages = x.Mails.Select(m => new MessageXMLOutputModel
+                    Id = p.Id,
+                    Name = p.FullName,
+                    IncarcerationDate = p.IncarcerationDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                    EncryptedMessages = p.Mails.Select(m => new MessageXMLOutputModel
                     {
-                        Description = ReverseMe(m.Description)
-                    }).ToArray()
+                        Description = new string(m.Description.ToCharArray().Reverse().ToArray())
+                    }).ToList()
+
 
                 })
                 .OrderBy(p => p.Name)
                 .ThenBy(p => p.Id)
                 .ToList();
 
+
             var xml = XmlConverter.Serialize(prisoners, "Prisoners");
-
             return xml;
-        }
 
-
-        private static string ReverseMe(string input)
-        {
-            // string result = string.Empty;
-            //var stringAsCharArray = input.ToCharArray();
-            string result = new string(input.ToCharArray().Reverse().ToArray());
-
-            return result;
         }
     }
 }
-
-//Export the prisoners: for each prisoner, export its id, name, incarcerationDate in the format “yyyy - MM - dd” and their encrypted mails.The encrypted algorithm you have to use is just to take each prisoner mail description and reverse it.Sort the prisoners by their name(ascending), then by their id(ascending).
-
-
-
-
-
-//{
-//    "Id": 3,
-//    "Name": "Binni Cornhill",
-//    "CellNumber": 503,
-//    "Officers": [
-//      {
-//        "OfficerName": "Hailee Kennon",
-//        "Department": "ArtificialIntelligence"
-//      },
-//      {
-//        "OfficerName": "Theo Carde",
-//        "Department": "Blockchain"
-//      }
-//    ],
-//    "TotalOfficerSalary": 7127.93
-//  },
