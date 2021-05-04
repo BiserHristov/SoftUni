@@ -1,0 +1,61 @@
+Task 01:
+
+[Range(typeof(decimal), "0", "79228162514264337593543950335")]  - decimal validation
+
+[EnumDataType(typeof(enumType))]   - enum validation
+
+	[InverseProperty("PrimaryKitColor")]
+	public ICollection<Team> PrimaryKitTeams { get; set; }
+	
+	[InverseProperty("SecondaryKitColor")]
+	public ICollection<Team> SecondaryKitTeams { get; set; }
+
+	modelBuilder.Entity<Team>(x =>
+            {
+                x.HasOne(x => x.PrimaryKitColor)
+                .WithMany(x => x.PrimaryKitTeams)
+                .HasForeignKey(x => x.PrimaryKitColorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+                x.HasOne(x => x.SecondaryKitColor)
+                .WithMany(x => x.SecondaryKitTeams)
+                .HasForeignKey(x => x.SecondaryKitColorId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+			
+
+this.Prisoners = new HashSet<Prisoner>(); - Inisialize collections
+
+modelBuilder.Entity<Car>().HasKey(c => new { c.State, c.LicensePlate });      - Composite primary key
+
+public DbSet<Blog> Blogs { get; set; }       - DBSet
+
+
+
+Task 02 (Deserializer):
+
+  //JSON -> make jsonInputModel
+   //var prosonersConverted = JsonConvert.DeserializeObject<IEnumerable<PrisonerInputModel>>(jsonString, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+    Enum.Parse<Position>(currentOfficer.Position)
+	DateTime.ParseExact(currentPrisoner.ReleaseDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+
+	var depsCells = JsonConvert.DeserializeObject<IEnumerable<DepartmentCellJsonInputModel>>(jsonString);
+	 var sb = new StringBuilder();
+	 return sb.toString().Trim();
+	 
+  //XML  -> addXMLHelper Folder
+  var desereliezedPurchase = XmlConverter.Deserializer<PurchaseXMLInputModel>(xmlString, "Purchases");
+  var sb = new StringBuilder();
+  return sb.ToString().Trim();
+  
+ 
+//Task 3
+  
+  JSON Export   ->  string result = JsonConvert.SerializeObject(users, Formatting.Indented);
+					return result;
+					
+					
+  XML Export (create XMLOutputModel without ICollection)   ->  var xml = XmlConverter.Serialize(users, "Users");
+										   return xml;
+					
+  
