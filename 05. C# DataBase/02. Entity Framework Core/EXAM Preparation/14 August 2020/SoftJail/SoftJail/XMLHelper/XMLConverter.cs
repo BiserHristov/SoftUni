@@ -64,6 +64,7 @@ namespace SoftJail.DataProcessor
         private static XmlSerializerNamespaces GetXmlNamespaces()
         {
             XmlSerializerNamespaces xmlNamespaces = new XmlSerializerNamespaces();
+			
             xmlNamespaces.Add(string.Empty, string.Empty);
             return xmlNamespaces;
         }
