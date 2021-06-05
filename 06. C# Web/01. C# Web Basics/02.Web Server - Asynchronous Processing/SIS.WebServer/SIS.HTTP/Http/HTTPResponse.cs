@@ -8,22 +8,16 @@ namespace SIS.HTTP
     public abstract class HTTPResponse
     {
         //private readonly ICollection<Header> headers;
-        public HTTPResponse(HttpStatusCode statusCode, string contentType, string content)
+        public HTTPResponse(HttpStatusCode statusCode)
         {
-            Guard.AgainstNull(content);
-            Guard.AgainstNull(contentType);
-
             this.StatusCode = statusCode;
             this.Headers = new List<Header>
             {
-                { new Header("Content-Type",contentType)},
-                { new Header("Content-Length",Encoding.UTF8.GetByteCount(content).ToString())},
-
                 { new Header("Date",$"{DateTime.UtcNow:r}")},
                 { new Header("Server","My Web Server")},
             };
             this.Cookies = new List<Cookie>();
-            this.Content = content;
+       
         }
 
         public HttpStatusCode StatusCode { get; private set; }

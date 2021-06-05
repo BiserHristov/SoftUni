@@ -6,10 +6,10 @@ using System.Text;
 
 namespace MyWebServer.Server.Responses
 {
-    public class TextResponse : HTTPResponse
+    public class TextResponse : ContentResponse
     {
         public TextResponse(string text)
-            : base(HttpStatusCode.OK, "text/plain; charset=UTF-8", text)
+            : base(text, "text/plain; charset=UTF-8")
         {
         }
     }

@@ -16,14 +16,16 @@ namespace SIS.HTTP
         private readonly IPAddress ipAddress;
         private readonly int port;
         private readonly TcpListener listener;
+        private readonly RoutingTable routingTable;
 
-        public HTTPServer(string ipAddress, int port, Action<IRoutingTable> routingTable)
+        public HTTPServer(string ipAddress, int port, Action<IRoutingTable> routingTableConfiguration)
         {
             this.ipAddress = IPAddress.Parse(ipAddress);
             this.port = port;
             this.listener = new TcpListener(this.ipAddress, port);
-           // this.routeTable = new Dictionary<string, Func<HTTPRequest, HTTPResponse>>();
-
+            // this.routeTable = new Dictionary<string, Func<HTTPRequest, HTTPResponse>>();
+            this.routingTable = new RoutingTable();
+            routingTableConfiguration(this.routingTable);
 
         }
 
@@ -93,9 +95,9 @@ namespace SIS.HTTP
             string requestAsString = Encoding.UTF8.GetString(dataBuffer.ToArray());
             Console.WriteLine(requestAsString);
 
-            var request = new HTTPRequest(requestAsString);
+            var request = HTTPRequest.Parse(requestAsString);
 
-            HTTPResponse response = new HtmlResponse("<h1>Pesho e na more</h1>");
+            HTTPResponse response = this.routingTable.MatchRequest(request);
 
             //if (routeTable.ContainsKey(request.Path))
             //{

@@ -6,18 +6,15 @@ using System.Text;
 
 namespace MyWebServer.Server.Responses
 {
-    public class HtmlResponse : HTTPResponse
+    public class HtmlResponse : ContentResponse
     {
-        public HtmlResponse(HttpStatusCode statusCode, string text)
-           : base(statusCode, "text/html; charset=UTF-8", text)
+        public HtmlResponse(string text)
+           : base(text,"text/html; charset=UTF-8")
         {
             
 
         }
 
-        public HtmlResponse(string text)
-          : this(HttpStatusCode.OK, text)
-        {
-        }
+       
     }
 }
