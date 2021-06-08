@@ -57,6 +57,9 @@ namespace MyWebServer
         {
             this.listener.Start();
 
+            Console.WriteLine($"Server started on port {port}...");
+            Console.WriteLine("Listening for requests...");
+
             while (true)
             {
                 TcpClient client = await this.listener.AcceptTcpClientAsync();

@@ -37,7 +37,7 @@ namespace MyWebServer.Routing
             Guard.AgainstNull(path, nameof(path));
             Guard.AgainstNull(responseFunction, nameof(responseFunction));
 
-            this.routes[method][path] = responseFunction;
+            this.routes[method][path.ToLower()] = responseFunction;
 
             return this;
         }
@@ -65,13 +65,16 @@ namespace MyWebServer.Routing
 
         public HTTPResponse ExecuteRequest(HTTPRequest request)
         {
-            if (!this.routes.ContainsKey(request.Method) ||
-                !this.routes[request.Method].ContainsKey(request.Path))
+            var requestMethod = request.Method;
+            var requestPath = request.Path.ToLower();
+
+            if (!this.routes.ContainsKey(requestMethod) ||
+                !this.routes[requestMethod].ContainsKey(requestPath))
             {
                 return new NotFoundResponse();
             }
 
-            var responseFunction= this.routes[request.Method][request.Path];
+            var responseFunction= this.routes[requestMethod][requestPath];
 
             return responseFunction(request);
         }

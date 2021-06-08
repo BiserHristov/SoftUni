@@ -13,7 +13,7 @@ namespace MyWebServer.Responses
         public RedirectResponse(string location) :
             base(HttpStatusCode.Found)
         {
-            AddHeader("Location", location);
+            this.Headers.Add(new Header("Location", location));
         }
 
     }

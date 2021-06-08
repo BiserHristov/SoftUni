@@ -15,8 +15,9 @@ namespace WebServer.App
         {
             IHTTPServer server = new HTTPServer(routes => routes
            .MapGet<HomeController>("/", c => c.Index())
-           .MapGet<AnimalsController>("/Cats", c => c.Cats())
            .MapGet<HomeController>("/softuni", c => c.ToSoftuni())
+           .MapGet<HomeController>("/toCats", c => c.LocalRedirect())
+           .MapGet<AnimalsController>("/Cats", c => c.Cats())
            .MapGet<AnimalsController>("/Dogs", c => c.Dogs()));
 
 
@@ -25,6 +26,7 @@ namespace WebServer.App
             //server.AddRoute("/users/login", Login);
 
             await server.Start();
+
 
         }
 

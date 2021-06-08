@@ -33,7 +33,7 @@ namespace MyWebServer.HTTP
         {
             var responseBuilder = new StringBuilder();
 
-            responseBuilder.Append($"HTTP/1.1 {(int)HttpStatusCode.OK} {HttpStatusCode.OK}" + HttpConstants.NewLine);
+            responseBuilder.Append($"HTTP/1.1 {(int)this.StatusCode} {this.StatusCode}" + HttpConstants.NewLine);
 
             foreach (var header in this.Headers)
             {

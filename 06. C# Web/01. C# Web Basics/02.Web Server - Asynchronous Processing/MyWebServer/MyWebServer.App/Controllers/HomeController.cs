@@ -24,5 +24,10 @@ namespace MyWebServer.App.Controllers
         {
             return base.Redirect("https://softuni.bg");
         }
+
+        public HTTPResponse LocalRedirect()
+        {
+            return base.Redirect("/cats");
+        }
     }
 }
