@@ -13,20 +13,25 @@ namespace MyWebServer.Responses
     {
 
 
-        public ViewResponse(string viewPath)
+        public ViewResponse(string viewPath, string controllerName)
             : base(HttpStatusCode.OK)
         {
-            this.GetHtml(viewPath);
+            this.GetHtml(viewPath, controllerName);
         }
 
-        private void GetHtml(string viewPath)
+        private void GetHtml(string viewName, string controllerName)
         {
-            //var directory = Directory.GetCurrentDirectory();
-            viewPath = Path.GetFullPath("." + viewPath);
+
+            if (!viewName.Contains('/'))
+            {
+                viewName = controllerName + '/' + viewName;
+            }
+            var viewPath = Path.GetFullPath("./Views/" + viewName.TrimStart('/') + ".cshtml");
 
             if (!File.Exists(viewPath))
             {
-                this.StatusCode = HttpStatusCode.NotFound;
+               
+                this.PrepareMissingViewError(viewPath);
                 return;
             }
 
@@ -34,6 +39,13 @@ namespace MyWebServer.Responses
             this.PrepareContent(viewContent, HttpContentType.Html);
 
 
+        }
+
+        private void PrepareMissingViewError(string viewPath)
+        {
+            this.StatusCode = HttpStatusCode.NotFound;
+            var errorMessage = $"View '{viewPath}' was not found!";
+            this.PrepareContent(errorMessage, HttpContentType.PlainText);
         }
     }
 }

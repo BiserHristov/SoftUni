@@ -31,6 +31,10 @@ namespace MyWebServer.App.Controllers
         //    return base.Html($"<h1>Hello from {dogName}!</h1>");
         //}
 
-        public HTTPResponse Dogs() => View("/Views/Animals/Dogs.cshtml");
+        public HTTPResponse Dogs() => View();
+
+        public HTTPResponse Bunnies() => View("Rabbits");
+        public HTTPResponse Turtles() => View("Animals/Wild/Turtles");
+
     }
 }

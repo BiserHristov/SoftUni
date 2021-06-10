@@ -18,7 +18,9 @@ namespace WebServer.App
            .MapGet<HomeController>("/softuni", c => c.ToSoftuni())
            .MapGet<HomeController>("/toCats", c => c.LocalRedirect())
            .MapGet<AnimalsController>("/Cats", c => c.Cats())
-           .MapGet<AnimalsController>("/Dogs", c => c.Dogs()));
+           .MapGet<AnimalsController>("/Turtles", c => c.Turtles())
+             .MapGet<AnimalsController>("/Bunnies", c => c.Bunnies())
+            .MapGet<AnimalsController>("/Dogs", c => c.Dogs()));
 
 
             //server.AddRoute("/", Home);

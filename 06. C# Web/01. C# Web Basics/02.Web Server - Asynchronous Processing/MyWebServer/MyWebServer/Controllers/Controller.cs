@@ -28,10 +28,10 @@ namespace MyWebServer.Controllers
             return new RedirectResponse(location);
         }
 
-        protected HTTPResponse View()
-            => null;
+        protected HTTPResponse View([CallerMemberName] string viewPath = "")
+            => new ViewResponse(viewPath, GetControllerName());
 
-        protected HTTPResponse View(string viewPath)
-            => new ViewResponse(viewPath);
+        private string GetControllerName()
+            => this.GetType().Name.Replace(nameof(Controller), string.Empty);
     }
 }
