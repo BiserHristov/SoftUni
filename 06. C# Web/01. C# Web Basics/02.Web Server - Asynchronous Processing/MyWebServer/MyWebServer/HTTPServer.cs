@@ -24,7 +24,6 @@ namespace MyWebServer
             this.ipAddress = IPAddress.Parse(ipAddress);
             this.port = port;
             this.listener = new TcpListener(this.ipAddress, port);
-            // this.routeTable = new Dictionary<string, Func<HTTPRequest, HTTPResponse>>();
             this.routingTable = new RoutingTable();
             routingTableConfiguration(this.routingTable);
 
@@ -59,6 +58,7 @@ namespace MyWebServer
 
             Console.WriteLine($"Server started on port {port}...");
             Console.WriteLine("Listening for requests...");
+            Console.WriteLine();
 
             while (true)
             {

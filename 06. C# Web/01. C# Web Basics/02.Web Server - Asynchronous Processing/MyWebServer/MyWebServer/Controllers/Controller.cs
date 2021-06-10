@@ -1,9 +1,10 @@
 ﻿using MyWebServer.HTTP;
 using MyWebServer.Responses;
+using System.Runtime.CompilerServices;
 
 namespace MyWebServer.Controllers
 {
-    
+
     public abstract class Controller
     {
         protected Controller(HTTPRequest request)
@@ -26,5 +27,11 @@ namespace MyWebServer.Controllers
         {
             return new RedirectResponse(location);
         }
+
+        protected HTTPResponse View()
+            => null;
+
+        protected HTTPResponse View(string viewPath)
+            => new ViewResponse(viewPath);
     }
 }

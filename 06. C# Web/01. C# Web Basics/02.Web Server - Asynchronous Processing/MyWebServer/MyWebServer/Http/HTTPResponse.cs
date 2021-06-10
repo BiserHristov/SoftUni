@@ -18,10 +18,10 @@ namespace MyWebServer.HTTP
                 { new Header("Server","My Web Server")},
             };
             this.Cookies = new List<Cookie>();
-       
+
         }
 
-        public HttpStatusCode StatusCode { get; private set; }
+        public HttpStatusCode StatusCode { get; protected set; }
         public ICollection<Header> Headers { get; set; }
         public ICollection<Cookie> Cookies { get; set; }
         public string Content { get; protected set; }
@@ -57,6 +57,16 @@ namespace MyWebServer.HTTP
 
             responseBuilder.Append(HttpConstants.NewLine);
             return responseBuilder.ToString();
+        }
+
+        protected void PrepareContent(string content, string contentType)
+        {
+            Guard.AgainstNull(content, nameof(content));
+            Guard.AgainstNull(contentType, nameof(contentType));
+
+            this.Headers.Add(new Header("Content-Type", contentType));
+            this.Headers.Add(new Header("Content-Length", Encoding.UTF8.GetByteCount(content).ToString()));
+            this.Content = content;
         }
 
         //public HTTPResponse(byte[] body, string contentType, HttpStatusCode statusCode = HttpStatusCode.OK)

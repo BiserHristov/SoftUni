@@ -9,6 +9,11 @@
     <ProjectReference Include="..\MyWebServer\MyWebServer.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<Content Include="Views\**\*.*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
  
 
 </Project>
