@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace MyWebServer.Results
 {
-    public class NotFoundResult : HTTPResponse
+    public class NotFoundResult : ActionResult
     {
-        public NotFoundResult()
-            : base(HttpStatusCode.NotFound)
+        public NotFoundResult(HTTPResponse response)
+            : base(response)
         {
+            this.StatusCode = HttpStatusCode.NotFound;
         }
     }
 }

@@ -16,8 +16,8 @@ namespace MyWebServer.HTTP
         public Cookie(string cookieString)
         {
             var cookieParts = cookieString.Split('=', 2);
-            this.Name = cookieParts[0];
-            this.Value = cookieParts[1];
+            this.Name = cookieParts[0].Trim();
+            this.Value = cookieParts[1].Trim();
 
         }
         public string Name { get; set; }

@@ -66,9 +66,9 @@ namespace MyWebServer.HTTP
 
             if (headers.Any(h => h.Name == "Cookie"))
             {
-                var cookieValueAsString = headers.FirstOrDefault(h => h.Name == "Cookie").Value;
+                var cookieValueAsString = headers.FirstOrDefault(h => h.Name == Header.Cookie).Value;
 
-                var cookiesAsStringArr = cookieValueAsString.Split(" ");
+                var cookiesAsStringArr = cookieValueAsString.Split(";");
                 for (int i = 0; i < cookiesAsStringArr.Length; i++)
                 {
                     var cookie = new Cookie(cookiesAsStringArr[i]);

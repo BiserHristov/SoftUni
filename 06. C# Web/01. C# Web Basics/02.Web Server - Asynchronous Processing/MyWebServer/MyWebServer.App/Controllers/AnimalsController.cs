@@ -24,7 +24,7 @@ namespace MyWebServer.App.Controllers
            ? int.Parse(query[ageKey])
            : 0;
 
-            return View(new CatViewModel{ Name = catName, Age = catAge });
+            return View(new CatViewModel { Name = catName, Age = catAge });
         }
         //public HTTPResponse Dogs()
         //{
@@ -37,7 +37,12 @@ namespace MyWebServer.App.Controllers
         //    return base.Html($"<h1>Hello from {dogName}!</h1>");
         //}
 
-        public HTTPResponse Dogs() => View();
+        public HTTPResponse Dogs() => View(new DogViewModel
+        {
+            Name = "Rex",
+            Age = 33,
+            Breed = "Street Perfect"
+        });
 
         public HTTPResponse Bunnies() => View("Rabbits");
         public HTTPResponse Turtles() => View("Animals/Wild/Turtles");

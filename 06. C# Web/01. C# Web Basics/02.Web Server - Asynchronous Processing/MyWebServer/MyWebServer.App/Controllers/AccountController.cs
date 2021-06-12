@@ -1,5 +1,6 @@
 ﻿using MyWebServer.Controllers;
 using MyWebServer.HTTP;
+using MyWebServer.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,19 @@ namespace MyWebServer.App.Controllers
         {
         }
 
-        //public HTTPResponse ActionWithCookies()
-        //{
+        public ActionResult ActionWithCookies()
+        {
+            const string cookieName = "My-Cookie";
+            if (this.Request.Cookies.ContainsKey(cookieName))
+            {
+                var cookie = this.Request.Cookies[cookieName];
+                return Text($"Cookies already exist - {cookie}");
 
-        //}
+            }
+
+            this.Response.AddCookie(cookieName, "My-value");
+            this.Response.AddCookie("My-second-cookie", "My-second-value");
+            return Text("Hello");
+        }
     }
 }

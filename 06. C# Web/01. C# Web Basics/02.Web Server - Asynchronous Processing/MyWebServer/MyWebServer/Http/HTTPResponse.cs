@@ -2,6 +2,7 @@
 using SISMyWebServer.HTTP;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyWebServer.HTTP
@@ -27,7 +28,26 @@ namespace MyWebServer.HTTP
         public string Content { get; protected set; }
         public void AddHeader(string name, string value)
         {
-            this.Headers.Add(new Header(name, value));
+            Guard.AgainstNull(name, nameof(name));
+            Guard.AgainstNull(value, nameof(value));
+            var header = this.Headers.FirstOrDefault(h => h.Name == name);
+            if (header!=null)
+            {
+                header.Value = value;
+            }
+            else
+            {
+                this.Headers.Add(new Header(name, value));
+            }
+            
+        }
+
+        public void AddCookie(string name, string value)
+        {
+            Guard.AgainstNull(name, nameof(name));
+            Guard.AgainstNull(value, nameof(value));
+
+            this.Cookies[name] = new Cookie(name, value);
         }
         public override string ToString()
         {
@@ -42,9 +62,9 @@ namespace MyWebServer.HTTP
 
             if (this.Cookies.Count > 0)
             {
-                foreach (var cookie in this.Cookies)
+                foreach (var cookie in this.Cookies.Values)
                 {
-                    responseBuilder.Append($"Set-Cookie: " + cookie.ToString() + HttpConstants.NewLine);
+                    responseBuilder.Append($"{Header.SetCookie}: " + cookie.ToString() + HttpConstants.NewLine);
                 }
             }
 
@@ -64,8 +84,8 @@ namespace MyWebServer.HTTP
             Guard.AgainstNull(content, nameof(content));
             Guard.AgainstNull(contentType, nameof(contentType));
 
-            this.Headers.Add(new Header(Header.ContentType, contentType));
-            this.Headers.Add(new Header(Header.ContentLength, Encoding.UTF8.GetByteCount(content).ToString()));
+            this.AddHeader(Header.ContentType, contentType);
+            this.AddHeader(Header.ContentLength, Encoding.UTF8.GetByteCount(content).ToString());
             this.Content = content;
         }
 

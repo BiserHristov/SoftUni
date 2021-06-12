@@ -71,7 +71,7 @@ namespace MyWebServer.Routing
             if (!this.routes.ContainsKey(requestMethod) ||
                 !this.routes[requestMethod].ContainsKey(requestPath))
             {
-                return new NotFoundResult();
+                return new HTTPResponse(HttpStatusCode.NotFound);
             }
 
             var responseFunction= this.routes[requestMethod][requestPath];

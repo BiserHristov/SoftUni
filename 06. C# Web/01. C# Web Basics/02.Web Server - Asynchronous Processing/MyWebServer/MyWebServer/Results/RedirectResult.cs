@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace MyWebServer.Results
 {
-    public class RedirectResult : HTTPResponse
+    public class RedirectResult : ActionResult
     {
 
-        public RedirectResult(string location) :
-            base(HttpStatusCode.Found)
+        public RedirectResult(HTTPResponse response, string location) :
+            base(response)
         {
-            this.Headers.Add(new Header(Header.Location, location));
+            this.StatusCode = HttpStatusCode.Found;
+            this.AddHeader(Header.Location, location);
         }
 
     }

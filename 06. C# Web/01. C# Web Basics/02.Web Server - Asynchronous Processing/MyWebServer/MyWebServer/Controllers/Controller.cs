@@ -10,34 +10,35 @@ namespace MyWebServer.Controllers
         protected Controller(HTTPRequest request)
         {
             this.Request = request;
+            this.Response = new HTTPResponse(HttpStatusCode.OK);
         }
 
         protected HTTPRequest Request { get; private init; }
 
         protected HTTPResponse Response { get; private init; }
-        protected HTTPResponse Text(string text)
+        protected ActionResult Text(string text)
         {
-            return new TextResult(text);
+            return new TextResult(this.Response,text);
         }
 
-        protected HTTPResponse Html(string html)
+        protected ActionResult Html(string html)
         {
-            return new HtmlResult(html);
+            return new HtmlResult(this.Response,html);
         }
 
-        protected HTTPResponse Redirect(string location)
+        protected ActionResult Redirect(string location)
         {
-            return new RedirectResult(location);
+            return new RedirectResult(this.Response,location);
         }
 
-        protected HTTPResponse View([CallerMemberName] string viewName = "")
-            => new ViewResult(viewName, GetControllerName(), null);
+        protected ActionResult View([CallerMemberName] string viewName = "")
+            => new ViewResult(this.Response,viewName, GetControllerName(), null);
 
-        protected HTTPResponse View(string viewName, object model)
-            => new ViewResult(viewName, GetControllerName(), model);
+        protected ActionResult View(string viewName, object model)
+            => new ViewResult(this.Response,viewName, GetControllerName(), model);
 
-        protected HTTPResponse View(object model, [CallerMemberName] string viewName = "")
-        => new ViewResult(viewName, GetControllerName(), model);
+        protected ActionResult View(object model, [CallerMemberName] string viewName = "")
+        => new ViewResult(this.Response,viewName, GetControllerName(), model);
 
         private string GetControllerName()
             => this.GetType().Name.Replace(nameof(Controller), string.Empty);

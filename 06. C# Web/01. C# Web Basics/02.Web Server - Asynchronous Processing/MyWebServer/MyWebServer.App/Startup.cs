@@ -20,9 +20,10 @@ namespace WebServer.App
            .MapGet<AnimalsController>("/Cats", c => c.Cats())
            .MapGet<AnimalsController>("/Turtles", c => c.Turtles())
            .MapGet<AnimalsController>("/Bunnies", c => c.Bunnies())
+           .MapGet<AnimalsController>("/Dogs", c => c.Dogs())
+           .MapGet<AccountController>("/Cookies", c => c.ActionWithCookies())
            .MapGet<CatsController>("/Cats/Create", c => c.Create())
-           .MapPost<CatsController>("/Cats/Save", c => c.Save())
-           .MapGet<AnimalsController>("/Dogs", c => c.Dogs()));
+           .MapPost<CatsController>("/Cats/Save", c => c.Save()));
 
 
             //server.AddRoute("/", Home);

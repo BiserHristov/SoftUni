@@ -8,12 +8,16 @@ using System.Threading.Tasks;
 
 namespace MyWebServer.Results
 {
-    public class ContentResult : HTTPResponse
+    public class ContentResult : ActionResult
     {
-        public ContentResult(string content, string contentType)
-            : base(HttpStatusCode.OK)
+
+        public ContentResult(
+            HTTPResponse response,
+            string content,
+            string contentType)
+            : base(response)
         {
-            
+
             this.PrepareContent(content, contentType);
 
         }

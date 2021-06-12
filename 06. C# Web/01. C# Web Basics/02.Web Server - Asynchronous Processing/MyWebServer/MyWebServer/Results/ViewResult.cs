@@ -9,13 +9,14 @@ using System.Threading.Tasks;
 
 namespace MyWebServer.Results
 {
-    public class ViewResult : HTTPResponse
+    public class ViewResult : ActionResult
     {
 
 
-        public ViewResult(string viewPath, string controllerName, object model)
-            : base(HttpStatusCode.OK)
+        public ViewResult(HTTPResponse response,string viewPath, string controllerName, object model)
+            : base(response)
         {
+            //this.StatusCode = HttpStatusCode.OK;
             this.GetHtml(viewPath, controllerName, model);
         }
 
