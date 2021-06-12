@@ -1,6 +1,6 @@
 ﻿using MyWebServer.Common;
 using MyWebServer.HTTP;
-using MyWebServer.Responses;
+using MyWebServer.Results;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -71,7 +71,7 @@ namespace MyWebServer.Routing
             if (!this.routes.ContainsKey(requestMethod) ||
                 !this.routes[requestMethod].ContainsKey(requestPath))
             {
-                return new NotFoundResponse();
+                return new NotFoundResult();
             }
 
             var responseFunction= this.routes[requestMethod][requestPath];

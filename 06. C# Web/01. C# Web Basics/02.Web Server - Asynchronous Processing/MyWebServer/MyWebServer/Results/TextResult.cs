@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MyWebServer.Responses
+namespace MyWebServer.Results
 {
-    public class TextResponse : ContentResponse
+    public class TextResult : ContentResult
     {
-        public TextResponse(string text)
+        public TextResult(string text)
             : base(text, HttpContentType.PlainText)
         {
         }

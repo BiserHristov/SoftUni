@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MyWebServer.Responses
+namespace MyWebServer.Results
 {
-    public class HtmlResponse : ContentResponse
+    public class HtmlResult : ContentResult
     {
-        public HtmlResponse(string html)
+        public HtmlResult(string html)
            : base(html, HttpContentType.Html)
         {
             

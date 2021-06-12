@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyWebServer.Responses
+namespace MyWebServer.Results
 {
-    public class BadRequestResponse : HTTPResponse
+    public class BadRequestResult : HTTPResponse
     {
-        public BadRequestResponse()
+        public BadRequestResult()
             : base(HttpStatusCode.BadRequest)
         {
         }

@@ -1,5 +1,5 @@
 ﻿using MyWebServer.HTTP;
-using MyWebServer.Responses;
+using MyWebServer.Results;
 using System.Runtime.CompilerServices;
 
 namespace MyWebServer.Controllers
@@ -13,23 +13,31 @@ namespace MyWebServer.Controllers
         }
 
         protected HTTPRequest Request { get; private init; }
+
+        protected HTTPResponse Response { get; private init; }
         protected HTTPResponse Text(string text)
         {
-            return new TextResponse(text);
+            return new TextResult(text);
         }
 
         protected HTTPResponse Html(string html)
         {
-            return new HtmlResponse(html);
+            return new HtmlResult(html);
         }
 
         protected HTTPResponse Redirect(string location)
         {
-            return new RedirectResponse(location);
+            return new RedirectResult(location);
         }
 
-        protected HTTPResponse View([CallerMemberName] string viewPath = "")
-            => new ViewResponse(viewPath, GetControllerName());
+        protected HTTPResponse View([CallerMemberName] string viewName = "")
+            => new ViewResult(viewName, GetControllerName(), null);
+
+        protected HTTPResponse View(string viewName, object model)
+            => new ViewResult(viewName, GetControllerName(), model);
+
+        protected HTTPResponse View(object model, [CallerMemberName] string viewName = "")
+        => new ViewResult(viewName, GetControllerName(), model);
 
         private string GetControllerName()
             => this.GetType().Name.Replace(nameof(Controller), string.Empty);

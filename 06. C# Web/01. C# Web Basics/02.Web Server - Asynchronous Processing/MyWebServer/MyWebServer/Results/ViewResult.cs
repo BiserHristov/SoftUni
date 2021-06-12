@@ -7,19 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyWebServer.Responses
+namespace MyWebServer.Results
 {
-    public class ViewResponse : HTTPResponse
+    public class ViewResult : HTTPResponse
     {
 
 
-        public ViewResponse(string viewPath, string controllerName)
+        public ViewResult(string viewPath, string controllerName, object model)
             : base(HttpStatusCode.OK)
         {
-            this.GetHtml(viewPath, controllerName);
+            this.GetHtml(viewPath, controllerName, model);
         }
 
-        private void GetHtml(string viewName, string controllerName)
+        private void GetHtml(string viewName, string controllerName, object model)
         {
 
             if (!viewName.Contains('/'))
@@ -30,12 +30,17 @@ namespace MyWebServer.Responses
 
             if (!File.Exists(viewPath))
             {
-               
+
                 this.PrepareMissingViewError(viewPath);
                 return;
             }
 
             var viewContent = File.ReadAllText(viewPath);
+
+            if (model != null)
+            {
+                viewContent = this.PopulateModel(viewContent, model);
+            }
             this.PrepareContent(viewContent, HttpContentType.Html);
 
 
@@ -46,6 +51,25 @@ namespace MyWebServer.Responses
             this.StatusCode = HttpStatusCode.NotFound;
             var errorMessage = $"View '{viewPath}' was not found!";
             this.PrepareContent(errorMessage, HttpContentType.PlainText);
+        }
+
+        private string PopulateModel(string viewContent, object model)
+        {
+            var data = model
+                .GetType()
+                .GetProperties()
+                .Select(pr => new
+                {
+                    pr.Name,
+                    Value = pr.GetValue(model)
+                });
+
+            foreach (var entry in data)
+            {
+                viewContent = viewContent.Replace($"{{{{{entry.Name}}}}}", entry.Value.ToString());
+            }
+
+            return viewContent;
         }
     }
 }

@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyWebServer.Responses
+namespace MyWebServer.Results
 {
-    public class ContentResponse : HTTPResponse
+    public class ContentResult : HTTPResponse
     {
-        public ContentResponse(string content, string contentType)
+        public ContentResult(string content, string contentType)
             : base(HttpStatusCode.OK)
         {
             

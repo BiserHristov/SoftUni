@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyWebServer.Responses
+namespace MyWebServer.Results
 {
-    public class RedirectResponse : HTTPResponse
+    public class RedirectResult : HTTPResponse
     {
 
-        public RedirectResponse(string location) :
+        public RedirectResult(string location) :
             base(HttpStatusCode.Found)
         {
-            this.Headers.Add(new Header("Location", location));
+            this.Headers.Add(new Header(Header.Location, location));
         }
 
     }

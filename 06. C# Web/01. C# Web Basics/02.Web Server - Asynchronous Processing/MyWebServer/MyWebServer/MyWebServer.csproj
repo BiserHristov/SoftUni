@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <Compile Remove="Http\TESTHttpContentTypes.cs" />
-    <Compile Remove="Responses\TESTViewResponse.cs" />
+    <Compile Remove="Results\TESTViewResponse.cs" />
   </ItemGroup>
 
   <ItemGroup>

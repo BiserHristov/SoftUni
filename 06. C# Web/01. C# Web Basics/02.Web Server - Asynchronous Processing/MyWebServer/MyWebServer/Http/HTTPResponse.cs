@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MyWebServer.HTTP
 {
-    public abstract class HTTPResponse
+    public  class HTTPResponse
     {
         //private readonly ICollection<Header> headers;
         public HTTPResponse(HttpStatusCode statusCode)
@@ -14,16 +14,16 @@ namespace MyWebServer.HTTP
             this.StatusCode = statusCode;
             this.Headers = new List<Header>
             {
-                { new Header("Date",$"{DateTime.UtcNow:r}")},
-                { new Header("Server","My Web Server")},
+                { new Header(Header.Date,$"{DateTime.UtcNow:r}")},
+                { new Header(Header.Server,"My Web Server")},
             };
-            this.Cookies = new List<Cookie>();
+            this.Cookies = new Dictionary<string, Cookie>();
 
         }
 
         public HttpStatusCode StatusCode { get; protected set; }
-        public ICollection<Header> Headers { get; set; }
-        public ICollection<Cookie> Cookies { get; set; }
+        public IList<Header> Headers { get; set; }
+        public IDictionary<string, Cookie> Cookies { get; private set; }
         public string Content { get; protected set; }
         public void AddHeader(string name, string value)
         {
@@ -64,8 +64,8 @@ namespace MyWebServer.HTTP
             Guard.AgainstNull(content, nameof(content));
             Guard.AgainstNull(contentType, nameof(contentType));
 
-            this.Headers.Add(new Header("Content-Type", contentType));
-            this.Headers.Add(new Header("Content-Length", Encoding.UTF8.GetByteCount(content).ToString()));
+            this.Headers.Add(new Header(Header.ContentType, contentType));
+            this.Headers.Add(new Header(Header.ContentLength, Encoding.UTF8.GetByteCount(content).ToString()));
             this.Content = content;
         }
 

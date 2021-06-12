@@ -1,4 +1,5 @@
-﻿using SISMyWebServer.HTTP;
+﻿using MyWebServer.Http;
+using SISMyWebServer.HTTP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,16 +12,17 @@ namespace MyWebServer.HTTP
         public HTTPRequest()
         {
             this.Headers = new List<Header>();
-            this.Cookies = new List<Cookie>();
-            this.Query = new ();
+            this.Cookies = new Dictionary<string, Cookie>();
+            this.Query = new Dictionary<string, string>();
 
         }
 
         public string Path { get; private set; }
         public HttpMethod Method { get; private set; }
-        public ICollection<Header> Headers { get; private set; }
-        public ICollection<Cookie> Cookies { get; private set; }
-        public Dictionary<string, string> Query { get; private set; }
+        public IReadOnlyCollection<Header> Headers { get; private set; }
+        public IReadOnlyDictionary<string,Cookie> Cookies { get; private set; }
+        public IReadOnlyDictionary<string, string> Query { get; private set; }
+        public IReadOnlyDictionary<string, string> Form { get; private set; }
 
         public string Body { get; private set; }
 
@@ -30,11 +32,11 @@ namespace MyWebServer.HTTP
             var headerLine = input[0].Split(" ").ToList();
             var method = Enum.Parse<HttpMethod>(headerLine[0]);
             var url = headerLine[1];
-            
+
             var (path, query) = ParseUrl(url);
 
             var headers = new List<Header>();
-            var cookies = new List<Cookie>();
+            var cookies = new Dictionary<string, Cookie>();
 
             bool isInHeaders = true;
             var bodyBuilder = new StringBuilder();
@@ -70,11 +72,13 @@ namespace MyWebServer.HTTP
                 for (int i = 0; i < cookiesAsStringArr.Length; i++)
                 {
                     var cookie = new Cookie(cookiesAsStringArr[i]);
-                    cookies.Add(cookie);
+                    cookies.Add(cookie.Name, cookie);
                 }
             }
 
             var body = bodyBuilder.ToString();
+
+            var form = ParseForm(headers, body);
 
             return new HTTPRequest
             {
@@ -84,6 +88,7 @@ namespace MyWebServer.HTTP
                 Headers = headers,
                 Cookies = cookies,
                 Body = body,
+                Form=form
             };
         }
 
@@ -92,20 +97,37 @@ namespace MyWebServer.HTTP
             var urlParts = url.Split('?', 2);
             var path = urlParts[0];
 
-            if (urlParts.Length==1)
+            if (urlParts.Length == 1)
             {
                 return (path, new Dictionary<string, string>());
             }
 
-            var query = urlParts[1]
-                .Split('&')
-                .Select(part => part.Split('='))
-                .Where(part => part.Length == 2)
-                .ToDictionary(part => part[0], part => part[1]);
-
+            var query = ParseQuery(urlParts[1]);
 
             return (path, query);
 
+        }
+
+        private static Dictionary<string, string> ParseQuery(string urlParts)
+        {
+            return urlParts
+                .Split('&')
+                .Select(part => part.Split('='))
+                .Where(part => part.Length == 2)
+                .ToDictionary(part => part[0], part => part[1].Trim());
+        }
+
+        private static Dictionary<string, string> ParseForm(List<Header> headers, string body)
+        {
+            var result = new Dictionary<string, string>();
+            var header = headers.Where(h => h.Name == Header.ContentType && h.Value == HttpContentType.FormUrlEncoded);
+
+            if (header != null)
+            {
+                result = ParseQuery(body);
+            }
+
+            return result;
         }
     }
 }
