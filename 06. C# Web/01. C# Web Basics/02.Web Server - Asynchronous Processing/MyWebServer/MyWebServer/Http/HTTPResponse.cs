@@ -89,6 +89,16 @@ namespace MyWebServer.HTTP
             this.Content = content;
         }
 
+        public static HTTPResponse ForError(string message)
+        {
+            return new HTTPResponse(HttpStatusCode.InternalServerError)
+            {
+                Content = message
+            };
+        }
+
+        
+
         //public HTTPResponse(byte[] body, string contentType, HttpStatusCode statusCode = HttpStatusCode.OK)
         //{
         //    this.StatusCode = statusCode;

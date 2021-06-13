@@ -1,4 +1,5 @@
-﻿using MyWebServer.HTTP;
+﻿using MyWebServer.Http;
+using MyWebServer.HTTP;
 using MyWebServer.Routing;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using HttpStatusCode = MyWebServer.HTTP.HttpStatusCode;
 
 namespace MyWebServer
 {
@@ -98,31 +100,28 @@ namespace MyWebServer
             string requestAsString = Encoding.UTF8.GetString(dataBuffer.ToArray());
             Console.WriteLine(requestAsString);
 
-            var request = HTTPRequest.Parse(requestAsString);
+            try
+            {
+                var request = HTTPRequest.Parse(requestAsString);
 
-            HTTPResponse response = this.routingTable.ExecuteRequest(request);
+                HTTPResponse response = this.routingTable.ExecuteRequest(request);
 
-            //if (routeTable.ContainsKey(request.Path))
-            //{
-            //    var action = routeTable[request.Path];
-            //    response = action(request);
+                this.PrepareSession(request, response);
 
-            //}
-            //else
-            //{
-            //    response = new HtmlResponse( HttpStatusCode.NotFound);
-
-            //}
-
-
-            //var responseBytes = Encoding.UTF8.GetBytes(response.ToString());
-
-            //await stream.WriteAsync(responseBytes, 0, responseBytes.Length);
-            //await stream.WriteAsync(response.Body, 0, response.Body.Length);
-
-            await stream.WriteAsync(Encoding.UTF8.GetBytes(response.ToString()));
+                await stream.WriteAsync(Encoding.UTF8.GetBytes(response.ToString()));
+            }
+            catch (Exception ex)
+            {
+                var errorResponse = HTTPResponse.ForError($"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
+                await stream.WriteAsync(Encoding.UTF8.GetBytes(errorResponse.ToString()));
+            }
 
             client.Close();
+        }
+
+        private void PrepareSession(HTTPRequest request ,HTTPResponse response)
+        {
+            response.AddCookie(Session.SessionCookieName, request.Session.Id);
         }
 
         private async Task WriteResponse(NetworkStream stream, HTTPResponse response)

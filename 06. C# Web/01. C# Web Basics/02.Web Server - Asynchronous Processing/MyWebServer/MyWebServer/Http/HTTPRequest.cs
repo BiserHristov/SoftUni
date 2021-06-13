@@ -9,6 +9,7 @@ namespace MyWebServer.HTTP
 {
     public class HTTPRequest
     {
+        private static Dictionary<string, Session> Sessions = new();
         public HTTPRequest()
         {
             this.Headers = new List<Header>();
@@ -20,9 +21,10 @@ namespace MyWebServer.HTTP
         public string Path { get; private set; }
         public HttpMethod Method { get; private set; }
         public IReadOnlyCollection<Header> Headers { get; private set; }
-        public IReadOnlyDictionary<string,Cookie> Cookies { get; private set; }
+        public IReadOnlyDictionary<string, Cookie> Cookies { get; private set; }
         public IReadOnlyDictionary<string, string> Query { get; private set; }
         public IReadOnlyDictionary<string, string> Form { get; private set; }
+        public Session Session { get; private set; }
 
         public string Body { get; private set; }
 
@@ -76,6 +78,8 @@ namespace MyWebServer.HTTP
                 }
             }
 
+            var session = GetSession(cookies);
+
             var body = bodyBuilder.ToString();
 
             var form = ParseForm(headers, body);
@@ -87,9 +91,27 @@ namespace MyWebServer.HTTP
                 Query = query,
                 Headers = headers,
                 Cookies = cookies,
+                Session = session,
                 Body = body,
-                Form=form
+                Form = form
             };
+        }
+
+        private static Session GetSession(Dictionary<string, Cookie> cookies)
+        {
+            var sessionId = cookies.ContainsKey(Session.SessionCookieName)
+                ? cookies[Session.SessionCookieName].Value
+                : Guid.NewGuid().ToString();
+
+
+            if (!Sessions.ContainsKey(sessionId))
+            {
+                Sessions.Add(sessionId, new Session(sessionId));
+            }
+
+            return Sessions[sessionId];
+
+
         }
 
         private static (string path, Dictionary<string, string> query) ParseUrl(string url)

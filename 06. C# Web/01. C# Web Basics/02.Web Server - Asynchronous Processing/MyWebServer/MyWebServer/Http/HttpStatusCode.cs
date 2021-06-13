@@ -12,6 +12,6 @@ namespace MyWebServer.HTTP
         TemporaryRedirect = 307,
         BadRequest=400,
         NotFound = 404,
-        ServerError = 500,
+        InternalServerError = 500,
     }
 }

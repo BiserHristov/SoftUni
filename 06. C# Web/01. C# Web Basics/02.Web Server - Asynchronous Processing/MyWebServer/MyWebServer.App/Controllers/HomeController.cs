@@ -29,5 +29,10 @@ namespace MyWebServer.App.Controllers
         {
             return base.Redirect("/cats");
         }
+
+        public HTTPResponse Error()
+        {
+            throw new InvalidOperationException("Invalid action!");
+        }
     }
 }

@@ -17,11 +17,13 @@ namespace WebServer.App
            .MapGet<HomeController>("/", c => c.Index())
            .MapGet<HomeController>("/softuni", c => c.ToSoftuni())
            .MapGet<HomeController>("/toCats", c => c.LocalRedirect())
+           .MapGet<HomeController>("/Error", c => c.Error())
            .MapGet<AnimalsController>("/Cats", c => c.Cats())
            .MapGet<AnimalsController>("/Turtles", c => c.Turtles())
            .MapGet<AnimalsController>("/Bunnies", c => c.Bunnies())
            .MapGet<AnimalsController>("/Dogs", c => c.Dogs())
            .MapGet<AccountController>("/Cookies", c => c.ActionWithCookies())
+           .MapGet<AccountController>("/Sessions", c => c.ActionWithSession())
            .MapGet<CatsController>("/Cats/Create", c => c.Create())
            .MapPost<CatsController>("/Cats/Save", c => c.Save()));
 
