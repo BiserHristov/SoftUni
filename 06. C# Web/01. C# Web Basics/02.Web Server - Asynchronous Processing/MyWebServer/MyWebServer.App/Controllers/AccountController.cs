@@ -46,5 +46,28 @@ namespace MyWebServer.App.Controllers
 
             return Text("Current date stored!");
         }
+
+        public HTTPResponse LogIn()
+        {
+            var someuserId = "MyuserId";
+            this.SignIn(someuserId);
+            return Text("User authenticated!");
+        }
+
+        public HTTPResponse LogOut()
+        {
+            this.SignOut();
+            return Text("User sighned out!");
+        }
+
+        public HTTPResponse AuthenticationCheck()
+        {
+            if (this.User.IsAuthenticated)
+            {
+                return Text($"Authenticated user: {this.User.Id}");
+            }
+
+            return Text("User is not authenticated");
+        }
     }
 }

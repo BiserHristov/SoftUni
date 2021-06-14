@@ -24,6 +24,9 @@ namespace WebServer.App
            .MapGet<AnimalsController>("/Dogs", c => c.Dogs())
            .MapGet<AccountController>("/Cookies", c => c.ActionWithCookies())
            .MapGet<AccountController>("/Sessions", c => c.ActionWithSession())
+           .MapGet<AccountController>("/Login", c => c.LogIn())
+           .MapGet<AccountController>("/Logout", c => c.LogOut())
+           .MapGet<AccountController>("/Authentication", c => c.AuthenticationCheck())
            .MapGet<CatsController>("/Cats/Create", c => c.Create())
            .MapPost<CatsController>("/Cats/Save", c => c.Save()));
 
