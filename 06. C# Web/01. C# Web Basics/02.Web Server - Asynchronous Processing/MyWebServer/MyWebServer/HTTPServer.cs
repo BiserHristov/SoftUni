@@ -12,7 +12,7 @@ namespace MyWebServer
 {
     public class HTTPServer : IHTTPServer
     {
-        
+
         //private IDictionary<string, Func<HTTPRequest, HTTPResponse>> routeTable;
         private readonly IPAddress ipAddress;
         private readonly int port;
@@ -36,7 +36,7 @@ namespace MyWebServer
         }
 
         public HTTPServer(Action<IRoutingTable> routingTable)
-            :this(5050, routingTable)
+            : this(5050, routingTable)
         {
 
         }
@@ -107,18 +107,18 @@ namespace MyWebServer
 
                 this.PrepareSession(request, response);
 
-                await stream.WriteAsync(Encoding.UTF8.GetBytes(response.ToString()));
+                await WriteResponse(stream, response);
             }
             catch (Exception ex)
             {
                 var errorResponse = HTTPResponse.ForError($"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
-                await stream.WriteAsync(Encoding.UTF8.GetBytes(errorResponse.ToString()));
+                await WriteResponse(stream, errorResponse);
             }
 
             client.Close();
         }
 
-        private void PrepareSession(HTTPRequest request ,HTTPResponse response)
+        private void PrepareSession(HTTPRequest request, HTTPResponse response)
         {
             if (request.Session.IsNew)
             {
@@ -132,6 +132,11 @@ namespace MyWebServer
             var responseBytes = Encoding.UTF8.GetBytes(response.ToString());
 
             await stream.WriteAsync(responseBytes);
+            if (response.HasContent)
+            {
+                await stream.WriteAsync(response.Content);
+
+            }
 
         }
 

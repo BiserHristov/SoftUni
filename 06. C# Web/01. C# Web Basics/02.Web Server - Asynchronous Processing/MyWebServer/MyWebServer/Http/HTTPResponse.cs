@@ -1,4 +1,5 @@
 ﻿using MyWebServer.Common;
+using MyWebServer.Http;
 using SISMyWebServer.HTTP;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,8 @@ namespace MyWebServer.HTTP
         public HttpStatusCode StatusCode { get; protected set; }
         public IList<Header> Headers { get; set; }
         public IDictionary<string, Cookie> Cookies { get; private set; }
-        public string Content { get; protected set; }
+        public byte[] Content { get; protected set; }
+        public bool HasContent => this.Content != null && this.Content.Any();
         public void AddHeader(string name, string value)
         {
             Guard.AgainstNull(name, nameof(name));
@@ -49,6 +51,39 @@ namespace MyWebServer.HTTP
 
             this.Cookies[name] = new Cookie(name, value);
         }
+       
+        public HTTPResponse SetContent(string content, string contentType)
+        {
+            Guard.AgainstNull(content, nameof(content));
+            Guard.AgainstNull(contentType, nameof(contentType));
+
+            this.AddHeader(Header.ContentType, contentType);
+            this.AddHeader(Header.ContentLength, Encoding.UTF8.GetByteCount(content).ToString());
+            this.Content = Encoding.UTF8.GetBytes(content);
+
+            return this;
+        }
+
+        public HTTPResponse SetContent(byte[] content, string contentType)
+        {
+            Guard.AgainstNull(content, nameof(content));
+            Guard.AgainstNull(contentType, nameof(contentType));
+
+            this.AddHeader(Header.ContentType, contentType);
+            this.AddHeader(Header.ContentLength, content.Length.ToString());
+            this.Content = content;
+
+            return this;
+        }
+
+
+
+        public static HTTPResponse ForError(string message)
+        {
+            return new HTTPResponse(HttpStatusCode.InternalServerError)
+            .SetContent(message, HttpContentType.PlainText);
+        }
+
         public override string ToString()
         {
             var responseBuilder = new StringBuilder();
@@ -68,36 +103,16 @@ namespace MyWebServer.HTTP
                 }
             }
 
-            if (!string.IsNullOrEmpty(this.Content))
+            if (this.HasContent)
             {
                 responseBuilder.Append(HttpConstants.NewLine);
-                responseBuilder.Append(this.Content + HttpConstants.NewLine);
 
             }
 
-            responseBuilder.Append(HttpConstants.NewLine);
+            //responseBuilder.Append(HttpConstants.NewLine);
             return responseBuilder.ToString();
         }
 
-        protected void PrepareContent(string content, string contentType)
-        {
-            Guard.AgainstNull(content, nameof(content));
-            Guard.AgainstNull(contentType, nameof(contentType));
-
-            this.AddHeader(Header.ContentType, contentType);
-            this.AddHeader(Header.ContentLength, Encoding.UTF8.GetByteCount(content).ToString());
-            this.Content = content;
-        }
-
-        public static HTTPResponse ForError(string message)
-        {
-            return new HTTPResponse(HttpStatusCode.InternalServerError)
-            {
-                Content = message
-            };
-        }
-
-        
 
         //public HTTPResponse(byte[] body, string contentType, HttpStatusCode statusCode = HttpStatusCode.OK)
         //{

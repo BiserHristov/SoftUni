@@ -27,6 +27,8 @@ namespace MyWebServer.App.Controllers
             return base.Redirect("/cats");
         }
 
+        public HTTPResponse StaticFiles() => View();
+
         public HTTPResponse Error()
         {
             throw new InvalidOperationException("Invalid action!");

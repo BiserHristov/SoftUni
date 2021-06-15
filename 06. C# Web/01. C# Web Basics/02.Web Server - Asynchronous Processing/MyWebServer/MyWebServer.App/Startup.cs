@@ -11,10 +11,12 @@ namespace WebServer.App
         static async Task Main(string[] args)
         {
             IHTTPServer server = new HTTPServer(routes => routes
+            .MapStaticFiles()
            .MapGet<HomeController>("/", c => c.Index())
            .MapGet<HomeController>("/softuni", c => c.ToSoftuni())
            .MapGet<HomeController>("/toCats", c => c.LocalRedirect())
            .MapGet<HomeController>("/Error", c => c.Error())
+           .MapGet<HomeController>("/StaticFiles", c => c.StaticFiles())
            .MapGet<AnimalsController>("/Cats", c => c.Cats())
            .MapGet<AnimalsController>("/Turtles", c => c.Turtles())
            .MapGet<AnimalsController>("/Bunnies", c => c.Bunnies())
