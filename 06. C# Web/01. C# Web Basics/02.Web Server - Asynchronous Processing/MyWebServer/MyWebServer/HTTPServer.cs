@@ -7,7 +7,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using HttpStatusCode = MyWebServer.HTTP.HttpStatusCode;
 
 namespace MyWebServer
 {
@@ -121,7 +120,11 @@ namespace MyWebServer
 
         private void PrepareSession(HTTPRequest request ,HTTPResponse response)
         {
-            response.AddCookie(Session.SessionCookieName, request.Session.Id);
+            if (request.Session.IsNew)
+            {
+                response.AddCookie(Session.SessionCookieName, request.Session.Id);
+                request.Session.IsNew = false;
+            }
         }
 
         private async Task WriteResponse(NetworkStream stream, HTTPResponse response)

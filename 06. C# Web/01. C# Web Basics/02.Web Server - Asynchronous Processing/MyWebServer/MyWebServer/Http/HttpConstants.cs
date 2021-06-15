@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SISMyWebServer.HTTP
+﻿namespace SISMyWebServer.HTTP
 {
     public static class HttpConstants
     {

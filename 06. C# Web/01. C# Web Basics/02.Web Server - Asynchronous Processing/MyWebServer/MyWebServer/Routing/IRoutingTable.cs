@@ -1,7 +1,5 @@
 ﻿using MyWebServer.HTTP;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MyWebServer.Routing
 {

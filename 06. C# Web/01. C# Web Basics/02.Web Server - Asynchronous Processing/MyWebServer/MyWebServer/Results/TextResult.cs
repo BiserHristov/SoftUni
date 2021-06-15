@@ -1,9 +1,5 @@
-﻿using MyWebServer.Common;
-using MyWebServer.Http;
+﻿using MyWebServer.Http;
 using MyWebServer.HTTP;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MyWebServer.Results
 {

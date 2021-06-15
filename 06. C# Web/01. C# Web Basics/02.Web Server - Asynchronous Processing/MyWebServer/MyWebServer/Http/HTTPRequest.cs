@@ -106,7 +106,7 @@ namespace MyWebServer.HTTP
 
             if (!Sessions.ContainsKey(sessionId))
             {
-                Sessions.Add(sessionId, new Session(sessionId));
+                Sessions.Add(sessionId, new Session(sessionId) { IsNew=true});
             }
 
             return Sessions[sessionId];
@@ -151,5 +151,7 @@ namespace MyWebServer.HTTP
 
             return result;
         }
+
+       
     }
 }

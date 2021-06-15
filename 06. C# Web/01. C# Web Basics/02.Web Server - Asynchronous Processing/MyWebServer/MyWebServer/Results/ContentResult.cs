@@ -1,10 +1,4 @@
-﻿using MyWebServer.Common;
-using MyWebServer.HTTP;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MyWebServer.HTTP;
 
 namespace MyWebServer.Results
 {

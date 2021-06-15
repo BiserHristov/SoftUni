@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MyWebServer.HTTP
+﻿namespace MyWebServer.HTTP
 {
     public enum HttpStatusCode
     {
