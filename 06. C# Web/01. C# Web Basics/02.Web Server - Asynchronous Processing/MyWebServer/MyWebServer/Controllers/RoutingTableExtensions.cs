@@ -1,4 +1,4 @@
-﻿using MyWebServer.HTTP;
+using MyWebServer.HTTP;
 using MyWebServer.Routing;
 using System;
 using System.Linq;
@@ -68,18 +68,26 @@ namespace MyWebServer.Controllers
                      return (HTTPResponse)controllerAction.Invoke(controllerInstance, Array.Empty<object>());
                  };
 
-                routingTable.MapGet(path, responseFunction);
+                var httpMethod = HttpMethod.GET;
+                var httpMethodAttribute = controllerAction.GetCustomAttribute<HttpMethodAttribute>();
+
+                if (httpMethodAttribute!=null)
+                {
+                    httpMethod = httpMethodAttribute.HttpMethod;
+                }
+
+                routingTable.Map(httpMethod,path, responseFunction);
 
                 const string defaultActionName = "Index";
                 const string defaultControllerName = "Home";
 
                 if (actionName == defaultActionName)
                 {
-                    routingTable.MapGet($"/{controllerName}", responseFunction);
+                    routingTable.Map(httpMethod,$"/{controllerName}", responseFunction);
 
                     if (controllerName == defaultControllerName)
                     {
-                        routingTable.MapGet("/", responseFunction);
+                        routingTable.Map(httpMethod,"/", responseFunction);
                     }
                 }
 
