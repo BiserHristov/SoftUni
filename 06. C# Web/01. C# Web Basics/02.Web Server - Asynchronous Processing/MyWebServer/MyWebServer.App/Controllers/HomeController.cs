@@ -23,9 +23,8 @@ namespace MyWebServer.App.Controllers
         }
 
         public HTTPResponse LocalRedirect()
-        {
-            return base.Redirect("/cats");
-        }
+        => base.Redirect("/Animals/Cats");
+
 
         public HTTPResponse StaticFiles() => View();
 

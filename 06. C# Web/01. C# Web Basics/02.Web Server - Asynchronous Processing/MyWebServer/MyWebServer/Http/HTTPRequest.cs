@@ -74,7 +74,7 @@ namespace MyWebServer.HTTP
                 for (int i = 0; i < cookiesAsStringArr.Length; i++)
                 {
                     var cookie = new Cookie(cookiesAsStringArr[i]);
-                    cookies.Add(cookie.Name, cookie);
+                    cookies[cookie.Name] = cookie;
                 }
             }
 

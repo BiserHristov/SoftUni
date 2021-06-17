@@ -12,6 +12,7 @@ namespace WebServer.App
         {
             IHTTPServer server = new HTTPServer(routes => routes
             .MapStaticFiles()
+            .MapControllers()
            .MapGet<HomeController>("/", c => c.Index())
            .MapGet<HomeController>("/softuni", c => c.ToSoftuni())
            .MapGet<HomeController>("/toCats", c => c.LocalRedirect())
