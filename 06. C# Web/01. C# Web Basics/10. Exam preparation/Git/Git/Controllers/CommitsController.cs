@@ -84,6 +84,20 @@ namespace Git.Controllers
         [Authorize]
         public HttpResponse Delete(string id)
         {
+            var commit = this.db
+                .Commits
+                .Where(c => c.Id == id && c.CreatorId == this.User.Id)
+                .FirstOrDefault();
+
+            if (commit == null)
+            {
+                return Unauthorized();
+            }
+
+            this.db.Commits.Remove(commit);
+            db.SaveChanges();
+
+            return this.Redirect("/Commits/All");
 
         }
     }
