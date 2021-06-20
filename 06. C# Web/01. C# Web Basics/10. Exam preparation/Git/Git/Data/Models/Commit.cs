@@ -14,16 +14,16 @@ namespace Git.Data.Models
 
         [Required]
         [MinLength(5)]
-        public string Description { get; private set; }
+        public string Description { get;  set; }
 
         [Required]
-        public DateTime CreatedOn { get; private set; }
+        public DateTime CreatedOn { get;  set; }
 
-        public string CreatorId { get; private set; }
-        public User Creator { get; private set; }
+        public string CreatorId { get;  set; }
+        public User Creator { get;  set; }
 
-        public string RepositoryId { get; private set; }
-        public Repository Repository { get; private set; }
+        public string RepositoryId { get;  set; }
+        public Repository Repository { get;  set; }
 
 
 

@@ -16,17 +16,17 @@ namespace Git.Data.Models
         [Required]
         [MinLength(3)]
         [MaxLength(10)]
-        public string Name { get; private set; }
+        public string Name { get;  set; }
 
         [Required]
-        public DateTime CreatedOn { get; private set; }
+        public DateTime CreatedOn { get;  set; }
 
         [Required]
-        public bool IsPublic { get; private set; }
+        public bool IsPublic { get;  set; }
 
-        public string OwnerId { get; private set; }
-        public User Owner { get; private set; }
-        public IEnumerable<Commit> Commits { get; private set; } = new HashSet<Commit>();
+        public string OwnerId { get;  set; }
+        public User Owner { get;  set; }
+        public IEnumerable<Commit> Commits { get;  set; } = new HashSet<Commit>();
 
     }
 }

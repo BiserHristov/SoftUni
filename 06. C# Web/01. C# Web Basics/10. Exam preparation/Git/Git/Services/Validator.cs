@@ -1,5 +1,7 @@
 ﻿
 
+using Git.Models.Commits;
+using Git.Models.Repositories;
 using Git.Models.Users;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -8,6 +10,37 @@ namespace Git.Services
 {
     public class Validator : IValidator
     {
+        public ICollection<string> ValidateCommitCreation(CommitCreateModel model)
+        {
+            var errors = new List<string>();
+            if (model.Description.Length<5)
+            {
+                errors.Add("Commmit lenth is too short");
+            }
+
+            return errors;
+        }
+
+        public ICollection<string> ValidateRepositoryCreation(RepositoryCreateModel model)
+        {
+            var errors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(model.Name) ||
+                model.Name.Length < 3 ||
+                model.Name.Length > 10)
+            {
+                errors.Add("Name is not valid!");
+            }
+
+            if (model.RepositoryType != "Private" &&
+                model.RepositoryType != "Public")
+            {
+                errors.Add("RepositoryType is not valid!");
+            }
+
+            return errors;
+        }
+
         public ICollection<string> ValidateUserRegistration(UserRegisterModel model)
         {
             var errors = new List<string>();
