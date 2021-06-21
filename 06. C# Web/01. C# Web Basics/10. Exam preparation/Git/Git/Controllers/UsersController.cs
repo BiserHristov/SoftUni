@@ -82,6 +82,7 @@ namespace Git.Controllers
             return Redirect("/Repositories/All");
         }
 
+        [Authorize]
         public HttpResponse Logout()
         {
             this.SignOut();

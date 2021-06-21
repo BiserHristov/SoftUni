@@ -36,7 +36,11 @@ namespace Git.Controllers
                 })
                 .FirstOrDefault();
 
+            if (repo==null)
+            {
+                return BadRequest();
 
+            }
             return View(repo);
         }
 
@@ -44,6 +48,11 @@ namespace Git.Controllers
         [Authorize]
         public HttpResponse Create(CommitCreateModel model)
         {
+            if (this.db.Repositories.Any(r=>r.Id==model.Id))
+            {
+                return BadRequest(); //Should be NotFound!
+
+            }
             var modelErrors = validator.ValidateCommitCreation(model);
             if (modelErrors.Count > 0)
             {
@@ -53,7 +62,7 @@ namespace Git.Controllers
             var commit = new Commit
             {
                 Description = model.Description,
-                CreatedOn = DateTime.UtcNow,
+                CreatedOn = DateTime.UtcNow.ToLocalTime(),//??
                 CreatorId = this.User.Id,
                 RepositoryId = model.Id
             };
@@ -73,7 +82,7 @@ namespace Git.Controllers
                     Id = c.Id,
                     RepositoryName = c.Repository.Name,
                     Description = c.Description,
-                    CreatedOn = c.CreatedOn.ToString()
+                    CreatedOn = c.CreatedOn.ToLocalTime().ToString("F")
                 })
                 .ToList();
 
@@ -91,7 +100,7 @@ namespace Git.Controllers
 
             if (commit == null)
             {
-                return Unauthorized();
+                return BadRequest();
             }
 
             this.db.Commits.Remove(commit);

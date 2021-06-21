@@ -8,7 +8,7 @@ namespace Git.Models.Repositories
 {
     public class RepositoryCreateModel
     {
-        public string Name { get; set; }
-        public string RepositoryType { get; set; }
+        public string Name { get; init; }
+        public string RepositoryType { get; init; }
     }
 }

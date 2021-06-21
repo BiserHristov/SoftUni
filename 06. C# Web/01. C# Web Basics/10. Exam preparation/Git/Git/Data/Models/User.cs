@@ -10,7 +10,7 @@ namespace Git.Data.Models
     public class User
     {
         [Required]
-        public string Id { get; private set; } = Guid.NewGuid().ToString();
+        public string Id { get; init; } = Guid.NewGuid().ToString();
 
         [Required]
         [MinLength(5)]
@@ -25,8 +25,8 @@ namespace Git.Data.Models
         [MinLength(6)]
         //[MaxLength(20)] After hashing the length is more than 20.
         public string Password { get; set; }
-        public IEnumerable<Repository> Repositories { get; private set; } = new HashSet<Repository>();
-        public IEnumerable<Commit> Commits { get; private set; } = new HashSet<Commit>();
+        public IEnumerable<Repository> Repositories { get; init } = new HashSet<Repository>();
+        public IEnumerable<Commit> Commits { get; init; } = new HashSet<Commit>();
 
 
     }

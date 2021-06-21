@@ -27,13 +27,13 @@ namespace Git.Controllers
         {
             var repositories = this.db
                  .Repositories
-                 .Where(r => r.IsPublic == true || r.OwnerId == this.User.Id)
+                 .Where(r => r.IsPublic || r.OwnerId == this.User.Id)
                  .Select(r => new AllRepositoriesViewModel
                  {
                      Id = r.Id,
                      Name = r.Name,
                      Owner = r.Owner.Username,
-                     CreatedOn = r.CreatedOn.ToString(),
+                     CreatedOn = r.CreatedOn.ToLocalTime().ToString("F"), //Transform Utc.Now to LocalTime
                      CommitsCount = r.Commits.Count()
 
                  })
@@ -56,14 +56,15 @@ namespace Git.Controllers
                 return Error(modelErrors);
             }
 
-            var user = this.db.Users.FirstOrDefault(u => u.Id == this.User.Id);
+            //var user = this.db.Users.FirstOrDefault(u => u.Id == this.User.Id);
 
             var repository = new Repository
-            {
+            { 
                 Name = model.Name,
-                CreatedOn = DateTime.UtcNow,
-                IsPublic = model.RepositoryType == "Public" ? true : false,
-                OwnerId = user.Id,
+                CreatedOn = DateTime.UtcNow, 
+                IsPublic = model.RepositoryType == "Public" ,
+                OwnerId = this.User.Id,
+                
             };
 
             this.db.Repositories.Add(repository);

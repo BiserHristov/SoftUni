@@ -9,24 +9,24 @@ namespace Git.Data.Models
 {
     public class Repository
     {
-
+        [Key]
         [Required]
-        public string Id { get; private set; } = Guid.NewGuid().ToString();
+        public string Id { get; init; } = Guid.NewGuid().ToString();
 
         [Required]
         [MinLength(3)]
         [MaxLength(10)]
         public string Name { get;  set; }
 
-        [Required]
-        public DateTime CreatedOn { get;  set; }
+        
+        public DateTime CreatedOn { get; init; } //=DateTime.UtcNow
 
-        [Required]
         public bool IsPublic { get;  set; }
 
+        [Required] //not necessary 
         public string OwnerId { get;  set; }
         public User Owner { get;  set; }
-        public IEnumerable<Commit> Commits { get;  set; } = new HashSet<Commit>();
+        public IEnumerable<Commit> Commits { get; init; } = new HashSet<Commit>();
 
     }
 }
