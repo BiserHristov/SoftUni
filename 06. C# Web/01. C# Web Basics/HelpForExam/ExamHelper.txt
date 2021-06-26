@@ -20,6 +20,10 @@
 	2.1  ->    Microsoft.EntityFrameworkCore.SqlServer
 	2.2  ->    Microsoft.EntityFrameworkCore.Design
 
-       dotnet ef migrations add InitialCreate -o Data/Migrations 
+In Package Manager Console (Visual Studio) -> Add-Migration InitialCreate -o Data/Migrations
+
+In csproj file directory system console-> dotnet ef migrations add InitialCreate -o Data/Migrations 
 					(-o oznachava migraciite da budat v papka Migrations, koiato se namira v papka Data)
-       dotnet ef database update                                                                                                                                                                
+       					
+					 dotnet ef database update   
+                                                                                                                                                                   
