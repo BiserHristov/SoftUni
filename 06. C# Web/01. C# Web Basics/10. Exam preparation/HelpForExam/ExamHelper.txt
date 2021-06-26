@@ -1,0 +1,29 @@
+	<ItemGroup>
+		<Content Include="Views\**\*.*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="wwwroot\**\*.*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.7" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.7">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+
+
+	2.1  ->    Microsoft.EntityFrameworkCore.SqlServer
+	2.2  ->    Microsoft.EntityFrameworkCore.Design
+
+In Package Manager Console (Visual Studio) -> Add-Migration InitialCreate -o Data/Migrations
+
+In csproj file directory system console-> dotnet ef migrations add InitialCreate -o Data/Migrations 
+					(-o oznachava migraciite da budat v papka Migrations, koiato se namira v papka Data)
+       					
+					 dotnet ef database update   
+                                                                                                                                                                   
