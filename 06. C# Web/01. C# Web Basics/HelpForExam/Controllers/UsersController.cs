@@ -16,12 +16,12 @@ namespace ChangeMe.Controllers
     {
         private readonly IValidator validator;
         private readonly IPasswordHasher passwordHasher;
-        private readonly BattleCardsDbContext db;
+        private readonly ChangeMeDbContext db;
 
         public UsersController(
             IValidator validator,
             IPasswordHasher passwordHasher,
-            BattleCardsDbContext db)
+            ChangeMeDbContext db)
         {
             this.validator = validator;
             this.db = db;
