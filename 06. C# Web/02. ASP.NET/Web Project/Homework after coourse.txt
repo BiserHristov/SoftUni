@@ -1,0 +1,17 @@
+- Learn how to search in Google
+- Watch again ASP.NET Core + First 3 Web Basics lectures
+- Internet Explained lecture: https://www.youtube.com/watch?v=1pSsIlU3T-s
+- JS Applications Course / DOM / Events...
+- Prepare for the interview: https://www.youtube.com/watch?v=NLoQJamzL8M
+- High-quality code https://www.youtube.com/playlist?list=PLf5IBVXYNTwJO9dE-XR9-iKbp_kw3_ZQy
+- Algorithms: https://www.youtube.com/watch?v=PsABC66m4_I&list=PLf5IBVXYNTwLwDCbpFtQLj1_587a3asv5
+- Math course: https://eee.bg/Courses/math-for-developers-1
+- Learn Angular, Vue.js or React
+- New technology new project
+- Learn a new language (C#,JS) - Python
+- Book: Code Complete
+- Book: C# via CLR (deep C#)
+- Book: Artificial Intelligence: A Modern Approach
+- Experiment with MongoDB
+- ML.NET lecture: https://www.youtube.com/watch?v=dluB5VE1m1k
+- machine learning (distant future) (math) + ML.NET lecture
